@@ -2,6 +2,8 @@ package com.viewnext.microlibreria.catalogo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,8 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServicioCatalogoApplication {
 
 	@RequestMapping("/")
-	public Saludo saludo(){
-		return new Saludo("Hola, ¿Qué tal?","servicio-catalogo");
+	public ResponseEntity<Saludo> saludo(){
+		
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(ServicioCatalogoApplication.class, args);
