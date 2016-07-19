@@ -1,0 +1,16 @@
+- hosts: servicioslib
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: install docker package
+      yum: pkg=docker state=latest
+    - name: start docker
+      service: name=docker state=started enabled=yes
+    - name: install mysql
+      shell: docker run --restart=unless-stopped --name mysql-lib -p 3306:3306 -v /vagrant/sql:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=viewnext -d mysql --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+#    - name: install elasticseach docker
+#      shell: docker run --restart=unless-stopped -d -p 9200:9200 -p 9300:9300 --name elasticsearch1 elasticsearch
+#    - name: install kibana docker
+#      shell: docker run --restart=unless-stopped -d --link elasticsearch1:elasticsearch -p 5601:5601 kibana
+    

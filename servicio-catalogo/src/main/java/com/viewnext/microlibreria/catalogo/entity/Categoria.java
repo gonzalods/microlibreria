@@ -1,7 +1,16 @@
 package com.viewnext.microlibreria.catalogo.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="CAT_CATEGORIA")
 public class Categoria {
 
+	@Id
+	@GeneratedValue
 	private Long id;
 	private String descripcion;
 	public Long getId() {

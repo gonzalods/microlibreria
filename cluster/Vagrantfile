@@ -1,0 +1,30 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ANSIBLE_GROUPS = {
+              "master" => ["master"],
+			  "servicioslib" => ["servicioslib"],
+              "nodes" => ["node1", "node2", "node3"],
+              "all_groups:children" => ["master", "servicioslib" ,"nodes"]
+            }
+Vagrant.configure("2") do |config|
+	config.vm.box = "bento/centos-7.1"
+	config.vm.provider "virtualbox" do |vb|
+    	vb.memory = "2048"
+		vb.cpus = 1
+	end
+	config.vm.define "servicioslib" do |services|
+    	services.vm.network "private_network", ip: "192.168.33.25"
+    	services.vm.hostname = "servicioslib"
+		services.vm.provider "virtualbox" do |vb|
+			vb.memory = "2048"
+			vb.cpus = 1
+			vb.name = services.vm.hostname 
+		end
+        services.vm.provision :ansible_local do |ansible|
+#		    ansible.verbose = "v"
+			ansible.playbook = "playbook.yml"
+            ansible.groups = ANSIBLE_GROUPS
+        end
+    end
+end
