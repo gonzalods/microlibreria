@@ -1,4 +1,4 @@
-package com.viewnext.microlibreria.catalogo;
+package com.viewnext.micro.busqueda;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
