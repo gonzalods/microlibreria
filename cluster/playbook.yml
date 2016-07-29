@@ -16,8 +16,10 @@
     - name: install elasticseach docker
       shell: docker run --restart=unless-stopped -d -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch:1.5.2
     - name: install kibana docker
-      shell: docker run --restart=unless-stopped -d --link elasticsearch:elasticsearch -p 5601:5601 kibana
+      shell: docker run --restart=unless-stopped -d --link elasticsearch:elasticsearch -p 5601:5601 kibana:4.1
     - name: create index catalogo elasticsearch
       shell: 'curl -X PUT "http://localhost:9200/catalogo"'
     - name: load catalogo elasticsearch
       shell: 'curl -X POST -H "Content-Type: application/json" "http://localhost:9200/catalogo/busqueda/_bulk?pretty" --data-binary "@/vagrant/catalogo_elastic.json"'
+    - name: install rabbitmq-management
+      shell: docker run --restart=unless-stopped -d --hostname lib-rabbit --name lib-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management

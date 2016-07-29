@@ -1,8 +1,8 @@
 {"index":{"_id":"1"}}
-{"titulo":"EL MOZARABE","autores":["Jesus Sanchez Adalid"],"precio":19.00,"categoria":{"id":1,"descripcion":"Literatura y ficción"}}
+{"id":"1","titulo":"EL MOZARABE","autores":["Jesus Sanchez Adalid"],"precio":19.00,"categoria":{"id":1,"descripcion":"Literatura y ficción"}}
 {"index":{"_id":"2"}}
-{"titulo":"Don Quijote de la Mancha. Primera parte: Versión original abreviada","autores":["Miguel de Cervantes"],"precio":3.31,"categoria":{"id":1,"descripcion":"Literatura y ficción"}}
+{"id":"2","titulo":"Don Quijote de la Mancha. Primera parte: Versión original abreviada","autores":["Miguel de Cervantes"],"precio":3.31,"categoria":{"id":1,"descripcion":"Literatura y ficción"}}
 {"index":{"_id":"3"}}
-{"titulo":"Física Teórica. Mecánica","autores":["L. D. Landau"],"precio":26.19,"categoria":{"id":2,"descripcion":"Tecnología e ingienería"}}
+{"id":"3","titulo":"Física Teórica. Mecánica","autores":["L. D. Landau"],"precio":26.19,"categoria":{"id":2,"descripcion":"Tecnología e ingienería"}}
 {"index":{"_id":"4"}}
-{"titulo":"Electrónica digital y microprocesadores","autores":["Eduardo Santamaría"],"precio":15.65,"categoria":{"id":2,"descripcion":"Tecnología e ingienería"}}
+{"id":"4","titulo":"Electrónica digital y microprocesadores","autores":["Eduardo Santamaría"],"precio":15.65,"categoria":{"id":2,"descripcion":"Tecnología e ingienería"}}

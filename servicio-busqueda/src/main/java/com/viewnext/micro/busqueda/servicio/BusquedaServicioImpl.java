@@ -1,5 +1,6 @@
 package com.viewnext.micro.busqueda.servicio;
 
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,5 +37,15 @@ public class BusquedaServicioImpl implements BusquedaServicio {
 		}else {
 			throw new IllegalArgumentException();
 		}
+	}
+	
+	@RabbitListener(queues={"catalogo.create","catalogo.update"})
+	public void updateDocBusqueda(BusquedaDocument busqueda){
+		repositorio.save(busqueda);
+	}
+	
+	@RabbitListener(queues="catalogo.delete")
+	public void deleteDocBusqueda(BusquedaDocument busqueda){
+		repositorio.delete(busqueda);
 	}
 }

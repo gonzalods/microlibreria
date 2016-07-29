@@ -64,10 +64,10 @@ public class Libro {
 	public void setAnno(Integer anno) {
 		this.anno = anno;
 	}
-	public Set<String> getAutor() {
+	public Set<String> getAutores() {
 		return autores;
 	}
-	public void setAutor(Set<String> autores) {
+	public void setAutores(Set<String> autores) {
 		this.autores = autores;
 	}
 	public void addAutor(String autor){
