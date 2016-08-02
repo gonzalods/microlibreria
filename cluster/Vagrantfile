@@ -8,6 +8,9 @@ ANSIBLE_GROUPS = {
               "all_groups:children" => ["master", "servicioslib" ,"nodes"]
             }
 Vagrant.configure("2") do |config|
+
+    config.ssh.username = "vagrant"
+    config.ssh.password = "vagrant"
 	config.vm.box = "bento/centos-7.1"
 	config.vm.provider "virtualbox" do |vb|
     	vb.memory = "2048"
