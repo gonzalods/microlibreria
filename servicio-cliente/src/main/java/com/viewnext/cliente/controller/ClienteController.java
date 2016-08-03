@@ -60,7 +60,7 @@ public class ClienteController {
 	public HttpEntity<?> obtenerCliente(@PathVariable String nombreusuario){
 		Optional<Cliente> cliente = cliServicio.buscarPorNombreusuario(nombreusuario);
 		if(cliente.isPresent()){
-			return new ResponseEntity<>(cliente, HttpStatus.OK);
+			return new ResponseEntity<>(cliente.get(), HttpStatus.OK);
 		}else{
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

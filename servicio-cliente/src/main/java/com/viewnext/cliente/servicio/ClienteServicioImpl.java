@@ -3,12 +3,14 @@ package com.viewnext.cliente.servicio;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.viewnext.cliente.entity.Cliente;
 import com.viewnext.cliente.exception.ClienteNoExistenteException;
 import com.viewnext.cliente.exception.NombreusuarioYaExisteException;
 import com.viewnext.cliente.repositorio.ClienteRepositorio;
 
+@Service
 public class ClienteServicioImpl implements ClienteServicio {
 
 	private ClienteRepositorio cliRepo;

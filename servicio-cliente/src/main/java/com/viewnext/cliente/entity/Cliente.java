@@ -6,10 +6,12 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@Table(name="CLI_CLIENTE")
 public class Cliente {
 
 	@Id
@@ -22,7 +24,6 @@ public class Cliente {
 	@Temporal(TemporalType.DATE)
 	private Date fechaAlta;
 	private String email;
-	private String codigoPostal;
 	@Embedded
 	private Direccion direccion;
 	private String nombreusuario;
@@ -61,12 +62,6 @@ public class Cliente {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public String getCodigoPostal() {
-		return codigoPostal;
-	}
-	public void setCodigoPostal(String codigoPostal) {
-		this.codigoPostal = codigoPostal;
 	}
 	public Direccion getDireccion() {
 		return direccion;

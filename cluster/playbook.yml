@@ -14,9 +14,9 @@
     - name: install mysql
       shell: docker run --restart=unless-stopped --name mysql-lib -p 3306:3306 -v /vagrant/sql:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=viewnext -d mysql --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     - name: install elasticseach docker
-      shell: docker run --restart=unless-stopped -d -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch:1.5.2
+      shell: docker run --restart=unless-stopped -d -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
     - name: install kibana docker
-      shell: docker run --restart=unless-stopped -d --link elasticsearch:elasticsearch -p 5601:5601 kibana:4.1
+      shell: docker run --restart=unless-stopped -d --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
     - name: create index catalogo elasticsearch
       shell: 'curl -X PUT "http://localhost:9200/catalogo"'
     - name: load catalogo elasticsearch

@@ -11,10 +11,9 @@ import com.viewnext.micro.busqueda.document.BusquedaDocument;
 @Repository
 public interface BusquedaRepositorio extends ElasticsearchRepository<BusquedaDocument, String> {
 	
-	//@Query("{\"fuzzy_like_this_field\":{\"busqueda\":{\"like_text\":\"?0\"}}}")
-	@Query("{\"fuzzy_like_this\":{\"fields\":[\"titulo\",\"autores\"], \"like_text\":\"?0\"}}}")
+	@Query("{\"multi_match\":{\"fields\":[\"titulo\",\"autores\"],\"query\":\"?0\",\"fuzziness\":\"AUTO\"}}")
 	Page<BusquedaDocument> findByBusqueda(String busqueda, Pageable pageable);
-	@Query("{\"bool\":{\"must\":[{\"fuzzy_like_this\":{\"fields\":[\"titulo\",\"autores\"],\"like_text\":\"?0\"}},{\"match\":{\"categoria.id\":\"?1\"}}]}}")
+	@Query("{\"bool\":{\"must\":[{\"multi_match\":{\"fields\":[\"titulo\",\"autores\"],\"query\":\"?0\",\"fuzziness\":\"AUTO\"}},{\"match\":{\"categoria.id\":\"?1\"}}]}}")
 	Page<BusquedaDocument> findByBusquedaAndCategoriaId(String busqueda, Long categoiraId, Pageable pageable);
 	Page<BusquedaDocument> findByCategoriaId(Long categoiraId, Pageable pageable);
 	
