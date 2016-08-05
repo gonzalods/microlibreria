@@ -1,8 +1,18 @@
 angular.module('app',['ngRoute','inicio','catalogo','cliente'])
 	.config(function($routeProvider, $httpProvider) {
-		$routeProvider.when('/inicio', { templateUrl: 'fragments/inicio.html'/*, controller: 'InicioCtrl'*/});
-	    $routeProvider.when('/catalogo', { templateUrl: 'fragments/catalogo.html', controller: 'NavAnonimoCtrl'});
-	    //$routeProvider.when('/finish', { templateUrl: 'partials/finish.html' });
+		$routeProvider.when('/inicio', { templateUrl: 'fragments/inicio.html'});
+	    $routeProvider.when('/catalogo', { 
+	    	templateUrl: 'fragments/catalogo.html', 
+	    	controller: 'BusquedaCtrl',
+	    	controllerAs: 'busqueda'});
+	    $routeProvider.when('/iniciocliente', { 
+	    	templateUrl: 'fragments/iniciocliente.html'//,
+	    	//controller: 'InicioClienteCtrl',
+	    	/*controllerAs: "iniciocliente"*/});
+	    $routeProvider.when('/login', { 
+	    	templateUrl: 'fragments/login.html',
+	    	controller: 'InicioClienteCtrl',
+	    	controllerAs: "iniciocliente"});
 	    $routeProvider.otherwise({ redirectTo: '/inicio' });
 	    
 	    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

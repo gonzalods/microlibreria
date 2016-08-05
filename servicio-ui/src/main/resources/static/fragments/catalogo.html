@@ -1,18 +1,53 @@
-<h2>Búsqueda Catálogo</h2>
-<form >
-	<table>
-		<tr>
-			<td><label for="titulo">Titulo:</label> </td>
-			<td> <input id="name" name="titulo" /></td>
-		</tr>
-		<tr>
-			<td><label for="categoria">Categoría:</label> </td>
-			<td> <select id="categoria" name="categoria">
-				<option value="">Seleccione una Categoría</option>
-				<option ng-repeat="categoria in categorias" value="{{categoria.id}}">{{categoria.descripcion}}</option>					
-			</select></td>
-		<tr>
-			<td colspan="2" align="right"> <input type="submit" value="Buscar"/></td>
-		</tr>
-	</table>
-</form>	
+<div>
+	<div id="nemu-panel" ng-include="'fragments/menu.html'"></div>
+	<h2>Búsqueda Catálogo</h2>
+	<form ng-submit="busqueda.buscar()">
+		<table>
+			<tr>
+				<td><label for="titulo">Titulo:</label> </td>
+				<td> <input id="name" name="titulo" ng-model="busqueda.filtro.busqueda"/></td>
+			</tr>
+			<tr>
+				<td><label for="categoria">Categoría:</label> </td>
+				<td> <select id="categoria" name="categoria" ng-model="busqueda.filtro.categoria">
+					<option value="">Seleccione una Categoría</option>
+					<option ng-repeat="categoria in busqueda.categorias" value="{{categoria.id}}">{{categoria.descripcion}}</option>					
+				</select></td>
+			<tr>
+				<td colspan="2" align="right"> <input type="submit" value="Buscar"/></td>
+			</tr>
+		</table> 
+	</form>
+	<div ng-if="busqueda.msg" style="color: blue;">{{busqueda.msg}}</div>
+	<div ng-if="busqueda.error" style="color: red;">{{busqueda.error}}</div>
+	<div ng-if="busqueda.mostrarResult">
+		<br>
+		<h2>Resultado Búsqueda</h2>
+		
+		<ol>
+			<li ng-repeat="libro in busqueda.resultBusqueda.libros">{{libro.titulo }} ({{libro.precio}})
+				 (<a href="" ng-click="busqueda.detalleLibro(libro.id)">Detalle</a>)</li>
+			</c:forEach>
+		</ol>
+	</div>
+	<div ng-if="busqueda.mostrarDetalle">
+		<h2>Detalle Libro</h2>
+		<dl>
+			<dt>Titulo</dt>
+			<dd>{{busqueda.detalle.titulo }}</dd>
+			<dt>Descripción:</dt>
+			<dd>{{busqueda.detalle.descripcion }}</dd>
+			<dt>Precio:</dt>
+			<dd>{{busqueda.detalle.precio}}</dd>
+			<dt>Año:</dt>
+			<dd>{{busqueda.detalle.anno }}</dd>
+			<dt>Autor:</dt>
+			<dd>{{busqueda.detalle.autores}}</dd>
+			<dt>ISBN:</dt>
+			<dd>{{busqueda.detalle.isbn }}</dd>
+			<dt>Categoría:</dt>
+			<dd>{{busqueda.detalle.categoria.descripcion }}</dd>
+		</dl>
+		<a href="" ng-click="busqueda.volver()">Volver</a>
+	</div>
+</div>

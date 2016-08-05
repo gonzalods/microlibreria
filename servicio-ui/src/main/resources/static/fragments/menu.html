@@ -1,0 +1,16 @@
+<nav>
+	<table>
+		<tr>
+			<td><div ng-show="authenticated"><a href="#/iniciocuenta">Inicio</a></div></td>
+			<td><div ng-show="authenticated"><a href="#/cuenta">Gestión Cuenta</a></div></td>
+			<td><div ng-show="authenticated"><a href="#/catalogo">Catálogo</a></div></td>
+			<td><a href='#/inicio"/>'>Salir</a></td>
+			<td><span >{{nombre}}</span> </td>
+			<td>
+				<div id="divCarrito" ng-show="carrito">
+					<a href="#/verCarrito">Carrito ({{sessionScope.carrito.numElementos()}})</a>
+				</div>
+			</td>
+		</tr>
+	</table>
+</nav>

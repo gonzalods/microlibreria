@@ -29,9 +29,9 @@ public class BusquedaServicioImpl implements BusquedaServicio {
 				&& filtro.getCategoria() != null && filtro.getCategoria() !=0){
 			return repositorio.findByBusquedaAndCategoriaId(filtro.getBusqueda(), filtro.getCategoria(), new PageRequest(0, 10));
 		}else if(filtro.getBusqueda()!=null && !filtro.getBusqueda().isEmpty() 
-				&& filtro.getCategoria() == null || filtro.getCategoria() ==0){
+				&& (filtro.getCategoria() == null || filtro.getCategoria() ==0)){
 			return repositorio.findByBusqueda(filtro.getBusqueda(), pageable);
-		}else if(filtro.getBusqueda()==null || filtro.getBusqueda().isEmpty() 
+		}else if((filtro.getBusqueda()==null || filtro.getBusqueda().isEmpty()) 
 				&& filtro.getCategoria() != null && filtro.getCategoria() !=0){
 			return repositorio.findByCategoriaId(filtro.getCategoria(), pageable);
 		}else {

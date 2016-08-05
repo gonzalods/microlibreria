@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,27 +21,28 @@ import com.viewnext.micro.busqueda.document.BusquedaDocument;
 import com.viewnext.micro.busqueda.servicio.BusquedaServicio;
 
 @RestController
+@CrossOrigin
 public class BusquedaController {
 
 	@Autowired
 	private BusquedaServicio servicio;
 	
 	@RequestMapping(value="/busqueda", method = RequestMethod.POST, consumes="application/json")
-	public HttpEntity<RespuestaBusqueda> busqueda(@RequestBody FiltroBusqueda filtro){
+	public HttpEntity<?> busqueda(@RequestBody FiltroBusqueda filtro){
 		
 		
-		ResponseEntity<RespuestaBusqueda> respuesta = null;
+		ResponseEntity<?> respuesta = null;
 		
 		try{
 			Page<BusquedaDocument> resultado = servicio.busqueda(filtro);
 			if(resultado.hasContent()){
 				respuesta = crearRespuesta(resultado);
 			}else{
-				respuesta = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+				respuesta = new ResponseEntity<>(filtro, HttpStatus.NOT_FOUND);
 			}
 			return respuesta;
 		}catch(IllegalArgumentException e){
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(filtro, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
