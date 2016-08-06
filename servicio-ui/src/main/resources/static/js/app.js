@@ -13,6 +13,10 @@ angular.module('app',['ngRoute','inicio','catalogo','cliente'])
 	    	templateUrl: 'fragments/login.html',
 	    	controller: 'InicioClienteCtrl',
 	    	controllerAs: "iniciocliente"});
+	    $routeProvider.when('/logout', { 
+	    	templateUrl: 'fragments/inicio.html',
+	    	controller: 'LogoutCtrl',
+	    	controllerAs: 'logout'});
 	    $routeProvider.otherwise({ redirectTo: '/inicio' });
 	    
 	    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

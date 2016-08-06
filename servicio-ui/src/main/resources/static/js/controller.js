@@ -1,7 +1,10 @@
 angular.module('inicio')
-	.controller('InicioCtrl', ['$scope', '$location', function($scope, $location) {
-		
+	.controller('LogoutCtrl',['$http','$rootScope', function($http, $rootScope){
+		$rootScope.inicio = false;
+		$rootScope.autenticated = false;
+		$rootScope.nombreusuario = null;
 	}]);
+
 angular.module('catalogo')
 	.controller('BusquedaCtrl',['$location', '$http' ,function($location, $http) {
 		
@@ -64,7 +67,7 @@ angular.module('cliente')
 	                                 function($html, $rootScope, $location) {
 		
 		var self = this;
-	
+		console.log($rootScope.inicio);
 		if(!$rootScope.inicio){
 			$location.path('/login');
 			$rootScope.inicio = true;
@@ -72,19 +75,31 @@ angular.module('cliente')
 			
 		var autenticate = function(credenciales, callback){
 			if(credenciales.nombreusuario){
-				
+				$html.get('http://localhost:8083/cliente/' + credenciales.nombreusuario)
+					.then(function(response){
+						$rootScope.autenticated = true;
+						callback && callback($rootScope.autenticated);
+					}, function(response){
+						$rootScope.autenticated = false;
+						callback && callback($rootScope.autenticated);
+					});
 			}else{
-				$location = '/login';
+				$location.path('/login');
 				$rootScope.autenticated = false;
 			}
 		};
 		
 //		autenticate();
 		self.credenciales = {};
-		var login = function(){
+		self.login = function(){
+			console.log('login');
 			autenticate(self.credenciales, function(autenticated){
-				if(autenticate){
-					$rootScope.autenticated = true;
+				if(autenticated){
+					$rootScope.nombreusuario = self.credenciales.nombreusuario;
+					$location.path('/iniciocliente');
+				}else{
+					$location.path('/login');
+					$rootScope.nombreusuario = null;
 				}
 			});
 		}
