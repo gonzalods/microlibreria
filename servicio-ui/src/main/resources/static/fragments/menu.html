@@ -1,16 +1,16 @@
 <nav>
 	<table>
 		<tr>
-			<td><div ng-show="autenticated"><a href="#/iniciocliente">Inicio cliente</a></div></td>
-			<td><div ng-show="autenticated"><a href="#/cuenta">Gestión Cuenta</a></div></td>
-			<td><div ng-show="autenticated"><a href="#/catalogo">Catálogo</a></div></td>
-			<td><a href="#/logout">Salir</a></td>
+			<td><h3>Librería Formación</h3></td>
+			<td><div ng-show="autenticado"><a href="#/cuenta">Gestión Cuenta</a></div></td>
+			<td><div ng-show="!autenticado"><a href="#/login">Acceso</a></div></td>
+			<td><div ng-show="autenticado"><a href="" ng-click="menu.logout()">Salir</a></div></td>
 			<td><span >{{nombreusuario}}</span> </td>
-			<td>
-				<div id="divCarrito" ng-show="carrito">
-					<a href="#/verCarrito">Carrito ({{sessionScope.carrito.numElementos()}})</a>
-				</div>
-			</td>
+<!-- 			<td> -->
+<!-- 				<div id="divCarrito" ng-show="carrito && menu.item('CatalogoCtrl')"> -->
+<!-- 					<a href="#/verCarrito">Carrito ({{sessionScope.carrito.numElementos()}})</a> -->
+<!-- 				</div> -->
+<!-- 			</td> -->
 		</tr>
 	</table>
 </nav>

@@ -1,26 +1,29 @@
-angular.module('app',['ngRoute','inicio','catalogo','cliente'])
+angular.module('app',['ngRoute','inicio','catalogo','cuenta'])
 	.config(function($routeProvider, $httpProvider) {
-		$routeProvider.when('/inicio', { templateUrl: 'fragments/inicio.html'});
 	    $routeProvider.when('/catalogo', { 
 	    	templateUrl: 'fragments/catalogo.html', 
-	    	controller: 'BusquedaCtrl',
-	    	controllerAs: 'busqueda'});
-	    $routeProvider.when('/iniciocliente', { 
-	    	templateUrl: 'fragments/iniciocliente.html'//,
-	    	//controller: 'InicioClienteCtrl',
-	    	/*controllerAs: "iniciocliente"*/});
+	    	controller: 'CatalogoCtrl',
+	    	controllerAs: 'catalogo'});
 	    $routeProvider.when('/login', { 
 	    	templateUrl: 'fragments/login.html',
-	    	controller: 'InicioClienteCtrl',
-	    	controllerAs: "iniciocliente"});
-	    $routeProvider.when('/logout', { 
-	    	templateUrl: 'fragments/inicio.html',
-	    	controller: 'LogoutCtrl',
-	    	controllerAs: 'logout'});
-	    $routeProvider.otherwise({ redirectTo: '/inicio' });
+	    	controller: 'MenuCtrl',
+	    	controllerAs: "menu"});
+//	    $routeProvider.when('/novedades',{
+//	    	templateUrl: 'fragments/novedades.html',
+//	    	controller: 'CatalogoCtrl',
+//	    	controllerAs: 'catalogo'});
+//	    $routeProvider.when('/recomendaciones',{
+//	    	templateUrl: 'fragments/recomendaciones.html',
+//	    	controller: 'CatalogoCtrl',
+//	    	controllerAs: 'catalogo'});
+	    $routeProvider.when('/cuenta', { 
+	    	templateUrl: 'fragments/cuenta.html',
+	    	controller: 'CuentaCtrl',
+	    	controllerAs: "cuenta"});
+	    $routeProvider.otherwise({ redirectTo: '/catalogo' });
 	    
 	    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 	});
 angular.module('inicio',[]);
 angular.module('catalogo',[]);
-angular.module('cliente',[]);
+angular.module('cuenta',[]);

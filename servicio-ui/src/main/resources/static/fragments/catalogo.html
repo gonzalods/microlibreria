@@ -1,53 +1,47 @@
 <div>
-	<div id="nemu-panel" ng-include="'fragments/menu.html'"></div>
-	<h2>Búsqueda Catálogo</h2>
-	<form ng-submit="busqueda.buscar()">
+	<form ng-submit="catalogo.buscar()">
 		<table>
 			<tr>
-				<td><label for="titulo">Titulo:</label> </td>
-				<td> <input id="name" name="titulo" ng-model="busqueda.filtro.busqueda"/></td>
+				<td><input type="submit" value="Buscar"/></td>
+				<td> <input id="name" name="titulo" ng-model="catalogo.filtro.busqueda"/></td>
+				<td> <select id="categoria" name="categoria" ng-model="catalogo.filtro.categoria">
+						<option value="">Seleccione una Categoría</option>
+						<option ng-repeat="categoria in catalogo.categorias" value="{{categoria.id}}">{{categoria.descripcion}}</option>					
+					</select>
+				</td>
 			</tr>
-			<tr>
-				<td><label for="categoria">Categoría:</label> </td>
-				<td> <select id="categoria" name="categoria" ng-model="busqueda.filtro.categoria">
-					<option value="">Seleccione una Categoría</option>
-					<option ng-repeat="categoria in busqueda.categorias" value="{{categoria.id}}">{{categoria.descripcion}}</option>					
-				</select></td>
-			<tr>
-				<td colspan="2" align="right"> <input type="submit" value="Buscar"/></td>
-			</tr>
-		</table> 
+		</table>
 	</form>
-	<div ng-if="busqueda.msg" style="color: blue;">{{busqueda.msg}}</div>
-	<div ng-if="busqueda.error" style="color: red;">{{busqueda.error}}</div>
-	<div ng-if="busqueda.mostrarResult">
+
+	<div ng-if="catalogo.msg" style="color: blue;">{{catalogo.msg}}</div>
+	<div ng-if="catalogo.error" style="color: red;">{{catalogo.error}}</div>
+	<div ng-if="catalogo.mostrarResult">
 		<br>
 		<h2>Resultado Búsqueda</h2>
 		
 		<ol>
-			<li ng-repeat="libro in busqueda.resultBusqueda.libros">{{libro.titulo }} ({{libro.precio}})
-				 (<a href="" ng-click="busqueda.detalleLibro(libro.id)">Detalle</a>)</li>
-			</c:forEach>
+			<li ng-repeat="libro in catalogo.resultBusqueda.libros">{{libro.titulo }} ({{libro.precio}})
+				 (<a href="" ng-click="catalogo.detalleLibro(libro.id)">Detalle</a>)</li>
 		</ol>
 	</div>
-	<div ng-if="busqueda.mostrarDetalle">
+	<div ng-if="catalogo.mostrarDetalle">
 		<h2>Detalle Libro</h2>
 		<dl>
 			<dt>Titulo</dt>
-			<dd>{{busqueda.detalle.titulo }}</dd>
+			<dd>{{catalogo.detalle.titulo }}</dd>
 			<dt>Descripción:</dt>
-			<dd>{{busqueda.detalle.descripcion }}</dd>
+			<dd>{{catalogo.detalle.descripcion }}</dd>
 			<dt>Precio:</dt>
-			<dd>{{busqueda.detalle.precio}}</dd>
+			<dd>{{catalogo.detalle.precio}}</dd>
 			<dt>Año:</dt>
-			<dd>{{busqueda.detalle.anno }}</dd>
+			<dd>{{catalogo.detalle.anno }}</dd>
 			<dt>Autor:</dt>
-			<dd>{{busqueda.detalle.autores}}</dd>
+			<dd>{{catalogo.detalle.autores}}</dd>
 			<dt>ISBN:</dt>
-			<dd>{{busqueda.detalle.isbn }}</dd>
+			<dd>{{catalogo.detalle.isbn }}</dd>
 			<dt>Categoría:</dt>
-			<dd>{{busqueda.detalle.categoria.descripcion }}</dd>
+			<dd>{{catalogo.detalle.categoria.descripcion }}</dd>
 		</dl>
-		<a href="" ng-click="busqueda.volver()">Volver</a>
+		<a href="" ng-click="catalogo.volver()">Volver</a>
 	</div>
 </div>

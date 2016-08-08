@@ -1,0 +1,77 @@
+<div>
+	<h3>Datos Cuenta</h3>
+	<div ng-show="cuenta.cuenta.msg">
+		<span style="color: blue;">{{cuenta.cuenta.msg}}</span>
+	</div>
+	<div ng-show="cuenta.cuenta.error">
+		<span style="color: red;">{{cuenta.cuenta.error}}</span>
+	</div>
+	<form ng-form="cuenta.actualizarCuenta()">
+		<input type="hidden" ng-model="cuenta.cuenta.id"/>
+		<input type="hidden" ng-model="cuenta.cuenta.fechaAlta"/>
+		<table>
+			<tr>
+				<td><label for="nombre">Nombre</label></td>
+				<td><input name="nombre" id="nombre" ng-model="cuenta.cuenta.nombre">
+			</tr>
+			<tr>
+				<td><label for="apellidos">Apellidos</label></td>
+				<td><input name="apellidos" id="" ng-model="cuenta.cuenta.apellidos">
+			</tr>
+			<tr>
+				<td><label for="fechaNacimiento">Fecha Nacimiento</label></td>
+				<td><input name="fechaNacimiento" id="fechaNacimiento" ng-model="cuenta.cuenta.fechaNacimiento">
+			</tr>
+			<tr>
+				<td><label for="email">Correo Electrónico</label></td>
+				<td><input name="email" id="email" ng-model="cuenta.cuenta.email">
+			</tr>
+			<tr>
+				<td><label for="calle">Calle</label></td>
+				<td><input name="calle" id="calle" ng-model="cuenta.cuenta.direccion.calle">
+			</tr>
+			<tr>
+				<td><label for="numero">Número</label></td>
+				<td><input name="numero" id="numero" ng-model="cuenta.cuenta.direccion.numero">
+			</tr>
+			<tr>
+				<td><label for="piso">Piso</label></td>
+				<td><input name="piso" id="piso" ng-model="cuenta.cuenta.direccion.piso">
+			</tr>
+			<tr>
+				<td><label for="ciudad">Ciudad</label></td>
+				<td><input name="ciudad" id="ciudad" ng-model="cuenta.cuenta.direccion.ciudad">
+			</tr>
+			<tr>
+				<td><label for="zip">Código Postal</label></td>
+				<td><input name="zip" id="zip" ng-model="cuenta.cuenta.direccion.codigoPostal">
+			</tr>
+			<tr>
+				<td><label for="nombreusuario">Nombre Usuario</label></td>
+				<td><input name="nombreusuario" id="nombreusuario" ng-model="cuenta.cuenta.nombreusuario">
+			</tr>
+			<tr>
+				<td><button type="submit">Actualizar Cuenta</button></td>
+			</tr>
+		</table>
+	</form>
+	<br>
+	<h3>Cambiar Contraseña</h3>
+	<div ng-show="cuenta.password.msg">
+		<span style="color: blue;">{{cuenta.password.msg}}</span>
+	</div>
+	<div ng-show="cuenta.password.error">
+		<span style="color: red;">{{cuenta.password.error}}</span>
+	</div>
+	<form ng-form="cuenta.cambiarPassword()">
+		<table>
+			<tr>
+				<td><label for="password">Contraseña Nueva</label></td>
+				<td><input type="password" name="password" id="password" ng-model="cuenta.password.password">
+			</tr>
+			<tr>
+				<td><button type="submit">Cambiar Contraseña</button></td>
+			</tr>			
+		</table>
+	</form>
+</div>

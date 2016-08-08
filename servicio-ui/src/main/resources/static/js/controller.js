@@ -1,12 +1,67 @@
 angular.module('inicio')
-	.controller('LogoutCtrl',['$http','$rootScope', function($http, $rootScope){
-		$rootScope.inicio = false;
-		$rootScope.autenticated = false;
-		$rootScope.nombreusuario = null;
+	.controller('MenuCtrl',['$http','$route','$rootScope','$location', 
+	                        function($http,$route,$rootScope,$location){
+		
+		var self = this;
+		
+		console.log($route.current);
+		self.item = function(ruta){
+			return $route.current && ruta === $route.current.controller;
+		}
+		
+		var autenticar = function(credenciales, callback){
+			
+			var headers = credenciales ? {
+					authorization : "Basic " + btoa(credenciales.nombreusuario + ":" + 
+													credenciales.password)
+			}: {};
+			
+			$http.get('/user', {headers : headers})
+			.then(function(response){
+				if(response.data.name){
+					$rootScope.nombreusuario = response.data.name;
+					$rootScope.autenticado = true;
+				}else{
+					$rootScope.nombreusuario = null;
+					$rootScope.autenticado = false;
+				}
+				callback && callback($rootScope.autenticado);
+				//else $location.path('/recomendaciones');
+			}, function(response){
+				$rootScope.nombreusuario = null;
+				$rootScope.autenticado = false;
+				callback && callback($rootScope.autenticado);
+				//else $location.path('/novedades');
+			});
+		};
+		
+		autenticar();
+		self.credenciales = {};
+			
+		self.login = function(){
+			autenticar(self.credenciales, function(autenticado) {
+				if(autenticado){
+					$location.path("/catalogo");
+					$rootScope.authenticated = true;
+				}else{
+					$location.path("/login");
+					$rootScope.authenticated = false;
+				}
+			});
+		};
+		
+		self.logout = function(){
+			$http.post('logout', {})
+			.finally(function() {
+				$rootScope.nombreusuario = null;
+				$rootScope.autenticado = false;
+				$location.path("/catalogo");
+			});
+		};
 	}]);
 
 angular.module('catalogo')
-	.controller('BusquedaCtrl',['$location', '$http' ,function($location, $http) {
+	.controller('CatalogoCtrl',['$location', '$http' ,function($location, $http) {
 		
 		var self = this;
 		
@@ -27,9 +82,6 @@ angular.module('catalogo')
 		self.msg;
 		
 		self.buscar = function(){
-			self.detalle = null;
-			self.msg = null;
-			self.error = null;
 			$http.post('http://localhost:8081/busqueda', self.filtro)
 			.then(function(response){
 				self.mostrarResult = true;
@@ -38,7 +90,7 @@ angular.module('catalogo')
 			}, function(response){
 				self.mostrarResult = false;
 				self.mostrarDetalle = false;
-				self.resultBusqueda = {};
+				$rootScope.resultBusqueda = {};
 				if(response.status == 404){
 					self.msg = 'No hay resultados para la búsqueda';
 				}else if(response.status == 400){
@@ -53,7 +105,6 @@ angular.module('catalogo')
 				self.mostrarResult = false;
 				self.mostrarDetalle = true;
 				self.detalle = response.data;
-				console.log(response.data);
 			});
 		};
 		self.volver = function(){
@@ -62,45 +113,41 @@ angular.module('catalogo')
 			self.detalle = {};
 		}
 	}]);
-angular.module('cliente')
-	.controller('InicioClienteCtrl',['$http','$rootScope', '$location', 
-	                                 function($html, $rootScope, $location) {
-		
+angular.module('cuenta')
+	.controller('CuentaCtrl',['$http','$rootScope', '$location', 
+	                                 function($http, $rootScope, $location) {
 		var self = this;
-		console.log($rootScope.inicio);
-		if(!$rootScope.inicio){
+		
+		self.cuenta = {};
+		self.password = {};
+		self.cuenta.msg;
+		self.cuenta.error;
+		self.password.msg;
+		self.password.error;
+		
+		$http.get('http://localhost:8083/cliente/' + $rootScope.nombreusuario)
+		.then(function(response){
+			self.cuenta = response.data;
+		}, function(){
+			$rootScope.autenticado = false;
 			$location.path('/login');
-			$rootScope.inicio = true;
-		}
-			
-		var autenticate = function(credenciales, callback){
-			if(credenciales.nombreusuario){
-				$html.get('http://localhost:8083/cliente/' + credenciales.nombreusuario)
-					.then(function(response){
-						$rootScope.autenticated = true;
-						callback && callback($rootScope.autenticated);
-					}, function(response){
-						$rootScope.autenticated = false;
-						callback && callback($rootScope.autenticated);
-					});
-			}else{
-				$location.path('/login');
-				$rootScope.autenticated = false;
-			}
+		});
+		
+		self.actualizarCuenta = function(){
+			$http.put('http://localhost:8083/cliente', self.cuenta)
+			.then(function(){
+				self.cuenta.msg = 'Cuenta actualizada correctamente';
+			}, function(response){
+				self.cuenta.error = response.data;
+			})
 		};
 		
-//		autenticate();
-		self.credenciales = {};
-		self.login = function(){
-			console.log('login');
-			autenticate(self.credenciales, function(autenticated){
-				if(autenticated){
-					$rootScope.nombreusuario = self.credenciales.nombreusuario;
-					$location.path('/iniciocliente');
-				}else{
-					$location.path('/login');
-					$rootScope.nombreusuario = null;
-				}
+		self.cambiarPassword = function(){
+			$http.put('password', self.password)
+			.then(function(){
+				self.password.msg = 'Contraseña actualizada correctamente';
+			}, function(response){
+				self.password.error = response.data; 
 			});
 		}
 	}]);
