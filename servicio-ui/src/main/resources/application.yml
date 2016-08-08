@@ -1,3 +1,7 @@
+security:
+  user:
+    name: usuariouno
+    password: viewnext
 logging:
   level:
     org.springframework.security: DEBUG

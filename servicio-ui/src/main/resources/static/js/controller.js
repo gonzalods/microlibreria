@@ -3,12 +3,12 @@ angular.module('inicio')
 	                        function($http,$route,$rootScope,$location){
 		
 		var self = this;
-		
-		console.log($route.current);
 		self.item = function(ruta){
 			return $route.current && ruta === $route.current.controller;
 		}
-		
+		self.acceso = function(){
+			return $route.current && $route.current.loadedTemplateUrl === 'fragments/login.html';
+		}
 		var autenticar = function(credenciales, callback){
 			
 			var headers = credenciales ? {
@@ -43,9 +43,11 @@ angular.module('inicio')
 				if(autenticado){
 					$location.path("/catalogo");
 					$rootScope.authenticated = true;
+					self.error =  false;
 				}else{
 					$location.path("/login");
 					$rootScope.authenticated = false;
+					self.error =  true;
 				}
 			});
 		};

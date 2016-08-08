@@ -3,7 +3,8 @@
 		<tr>
 			<td><h3>Librería Formación</h3></td>
 			<td><div ng-show="autenticado"><a href="#/cuenta">Gestión Cuenta</a></div></td>
-			<td><div ng-show="!autenticado"><a href="#/login">Acceso</a></div></td>
+			<td><div><a href="#/catalogo">Catálogo</a></div></td>
+			<td><div ng-show="!autenticado && !menu.acceso()"><a href="#/login">Acceso</a></div></td>
 			<td><div ng-show="autenticado"><a href="" ng-click="menu.logout()">Salir</a></div></td>
 			<td><span >{{nombreusuario}}</span> </td>
 <!-- 			<td> -->

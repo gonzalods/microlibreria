@@ -6,7 +6,7 @@
 	<div ng-show="cuenta.cuenta.error">
 		<span style="color: red;">{{cuenta.cuenta.error}}</span>
 	</div>
-	<form ng-form="cuenta.actualizarCuenta()">
+	<form ng-submit="cuenta.actualizarCuenta()">
 		<input type="hidden" ng-model="cuenta.cuenta.id"/>
 		<input type="hidden" ng-model="cuenta.cuenta.fechaAlta"/>
 		<table>
@@ -63,7 +63,7 @@
 	<div ng-show="cuenta.password.error">
 		<span style="color: red;">{{cuenta.password.error}}</span>
 	</div>
-	<form ng-form="cuenta.cambiarPassword()">
+	<form ng-submit="cuenta.cambiarPassword()">
 		<table>
 			<tr>
 				<td><label for="password">Contraseña Nueva</label></td>

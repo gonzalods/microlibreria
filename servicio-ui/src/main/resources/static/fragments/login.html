@@ -1,7 +1,7 @@
-<!-- <div class="alert alert-danger" ng-show="error"> -->
-<!-- 	There was a problem logging in. Please try again. -->
-<!-- </div> -->
 <h2>Registro</h2>
+<div ng-show="menu.error">
+	<span style="color: red">Error de acceso. Intentelo de nuevo</span>
+</div>
 <form role="form" ng-submit="menu.login()">
 	<table>
 		<tr>
