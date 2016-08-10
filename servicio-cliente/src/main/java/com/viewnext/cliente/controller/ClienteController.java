@@ -20,7 +20,7 @@ import com.viewnext.cliente.servicio.ClienteServicio;
 
 @RestController
 @RequestMapping("/cliente")
-@CrossOrigin
+@CrossOrigin(origins="*", allowedHeaders = {"x-auth-token", "x-requested-with","x-xsrf-token"})
 public class ClienteController {
 	
 	@Autowired
@@ -37,12 +37,13 @@ public class ClienteController {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
+	@CrossOrigin(allowedHeaders = {"content-type"})
 	public HttpEntity<?> actualizarCliente(@RequestBody Cliente cliente){
 		try{
 			 Cliente actualizado = cliServicio.actualizarCliente(cliente); 
 			 return new ResponseEntity<Cliente>(actualizado, HttpStatus.OK);
-		 }catch(NombreusuarioYaExisteException e){
-			 return new ResponseEntity<String>("Nombre usuario ya existe", HttpStatus.BAD_REQUEST);
+//		 }catch(NombreusuarioYaExisteException e){
+//			 return new ResponseEntity<String>("Nombre usuario ya existe", HttpStatus.BAD_REQUEST);
 		 }catch (ClienteNoExistenteException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

@@ -1,5 +1,6 @@
 CREATE DATABASE lib_catalogo;
 CREATE DATABASE lib_cliente;
+CREATE DATABASE lib_acceso;
 
 USE lib_catalogo;
 
@@ -56,3 +57,23 @@ CREATE TABLE CLI_CLIENTE(
 	
 INSERT INTO CLI_CLIENTE (NOMBRE,APELLIDOS,FECHANACIMIENTO,FECHAALTA,EMAIL,CALLE,NUMERO,PISO,CIUDAD,CODIGOPOSTAL,NOMBREUSUARIO) VALUES('Usuario Uno','Libreria','1981-09-03', '2013-10-24','usuario1.libreria@viewnext.com','Calle','4','1º Dch.','Madrid','28021','usuariouno');
 INSERT INTO CLI_CLIENTE (NOMBRE,APELLIDOS,FECHANACIMIENTO,FECHAALTA,EMAIL,CALLE,NUMERO,PISO,CIUDAD,CODIGOPOSTAL,NOMBREUSUARIO) VALUES('Usuario Dos','Libreria','1979-03-22', '2016-01-07','usuario2.libreria@viewnext.com','Avenida','6','1º Izda.','Madrid','28009','usuariodos');	
+
+USE lib_acceso;
+
+create table users (
+  username varchar(256),
+  password varchar(256),
+  enabled boolean
+);
+
+create table authorities (
+  username varchar(256),
+  authority varchar(256)
+);
+
+insert into users (username, password, enabled) values ('usuariouno', 'viewnext', true);
+insert into authorities (username, authority) values ('usuariouno', 'ROLE_USUARIO');
+insert into users (username, password, enabled) values ('usuariodos', 'viewnext', true);
+insert into authorities (username, authority) values ('usuariodos', 'ROLE_USUARIO');
+insert into users (username, password, enabled) values ('adminuno', 'viewnext', true);
+insert into authorities (username, authority) values ('adminuno', 'ROLE_ADMIN');

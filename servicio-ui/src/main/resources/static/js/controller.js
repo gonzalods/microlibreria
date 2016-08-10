@@ -127,21 +127,43 @@ angular.module('cuenta')
 		self.password.msg;
 		self.password.error;
 		
-		$http.get('http://localhost:8083/cliente/' + $rootScope.nombreusuario)
-		.then(function(response){
-			self.cuenta = response.data;
-		}, function(){
-			$rootScope.autenticado = false;
-			$location.path('/login');
+		$http.get('token').then(function(response){
+			$http({
+				url : 'http://localhost:8083/cliente/' + $rootScope.nombreusuario,
+				method : 'GET',
+				headers : {
+					'X-Auth-Token' : response.data.token
+				}
+			}).then(function(response){
+				self.cuenta = response.data;
+			}, function(){
+				$rootScope.autenticado = false;
+				$location.path('/login');
+			});
 		});
+//		$http.get('http://localhost:8083/cliente/' + $rootScope.nombreusuario)
+//		.then(function(response){
+//			self.cuenta = response.data;
+//		}, function(){
+//			$rootScope.autenticado = false;
+//			$location.path('/login');
+//		});
 		
 		self.actualizarCuenta = function(){
-			$http.put('http://localhost:8083/cliente', self.cuenta)
-			.then(function(){
-				self.cuenta.msg = 'Cuenta actualizada correctamente';
-			}, function(response){
-				self.cuenta.error = response.data;
-			})
+			$http.get('token').then(function(response){
+				$http({
+					url : 'http://localhost:8083/cliente',
+					method : 'PUT',
+					headers : {
+						'X-Auth-Token' : response.data.token
+					},
+					data : self.cuenta
+				}).then(function(){
+					self.cuenta.msg = 'Cuenta actualizada correctamente';
+				}, function(response){
+					self.cuenta.error = response.data;
+				});
+			});
 		};
 		
 		self.cambiarPassword = function(){

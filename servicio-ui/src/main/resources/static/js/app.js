@@ -26,4 +26,7 @@ angular.module('app',['ngRoute','inicio','catalogo','cuenta'])
 	});
 angular.module('inicio',[]);
 angular.module('catalogo',[]);
-angular.module('cuenta',[]);
+angular.module('cuenta',['ngCookies','csrf-cross-domain'])
+	.config(function(csrfCDProvider){
+		csrfCDProvider.setAllowedMethods(['PUT']);
+	});

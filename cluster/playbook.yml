@@ -23,3 +23,5 @@
       shell: 'curl -X POST -H "Content-Type: application/json" "http://localhost:9200/catalogo/busqueda/_bulk?pretty" --data-binary "@/vagrant/catalogo_elastic.json"'
     - name: install rabbitmq-management
       shell: docker run --restart=unless-stopped -d --hostname lib-rabbit --name lib-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+    - name: install redis
+      shell: docker run --restart=unless-stopped -d --name lib-redis -p 6379:6379 redis

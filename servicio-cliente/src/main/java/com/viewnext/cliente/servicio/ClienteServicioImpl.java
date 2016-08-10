@@ -34,10 +34,10 @@ public class ClienteServicioImpl implements ClienteServicio {
 		if(!cliRepo.exists(cliente.getId())){
 			throw new ClienteNoExistenteException();
 		}
-		Optional<Cliente> cli = buscarPorNombreusuario(cliente.getNombreusuario());
-		if(cli.isPresent()){
-			throw new NombreusuarioYaExisteException();
-		}
+//		Optional<Cliente> cli = buscarPorNombreusuario(cliente.getNombreusuario());
+//		if(cli.isPresent()){
+//			throw new NombreusuarioYaExisteException();
+//		}
 		return cliRepo.save(cliente);
 	}
 
