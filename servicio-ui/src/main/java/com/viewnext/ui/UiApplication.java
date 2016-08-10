@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.annotation.Bean;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
+@EnableZuulProxy
 public class UiApplication {
 
 	@RequestMapping("/user")
@@ -52,10 +53,8 @@ public class UiApplication {
 				.httpBasic()
 			.and()
 				.authorizeRequests()
-					.antMatchers("/index.html", "/fragments/novedades.html", 
-							"/fragments/catalogo.html", "/fragments/menu.html",
-							"/fragments/cuenta.html",
-							"/fragments/login.html","/").permitAll()
+					.antMatchers("/index.html", "/fragments/**", "/",
+							"/categoria/all", "/catalogo/**", "/busqueda/**").permitAll()
 					.anyRequest().authenticated()
 				.and()
 					.csrf()

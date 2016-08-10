@@ -68,7 +68,7 @@ angular.module('catalogo')
 		var self = this;
 		
 		var allCategorias = function(){
-			$http.get('http://localhost:8082/categoria/all').then(function(response) {
+			$http.get('categoria/all').then(function(response) {
 				self.categorias = response.data;
 			});
 		}
@@ -84,7 +84,7 @@ angular.module('catalogo')
 		self.msg;
 		
 		self.buscar = function(){
-			$http.post('http://localhost:8081/busqueda', self.filtro)
+			$http.post('busqueda/', self.filtro)
 			.then(function(response){
 				self.mostrarResult = true;
 				self.mostrarDetalle = false;
@@ -102,7 +102,7 @@ angular.module('catalogo')
 		};
 		
 		self.detalleLibro = function(id){
-			$http.get('http://localhost:8082/catalogo/'+id)
+			$http.get('catalogo/'+id)
 			.then(function(response){
 				self.mostrarResult = false;
 				self.mostrarDetalle = true;
@@ -129,7 +129,7 @@ angular.module('cuenta')
 		
 		$http.get('token').then(function(response){
 			$http({
-				url : 'http://localhost:8083/cliente/' + $rootScope.nombreusuario,
+				url : 'cliente/' + $rootScope.nombreusuario,
 				method : 'GET',
 				headers : {
 					'X-Auth-Token' : response.data.token
@@ -152,7 +152,7 @@ angular.module('cuenta')
 		self.actualizarCuenta = function(){
 			$http.get('token').then(function(response){
 				$http({
-					url : 'http://localhost:8083/cliente',
+					url : 'cliente/',
 					method : 'PUT',
 					headers : {
 						'X-Auth-Token' : response.data.token

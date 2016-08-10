@@ -20,7 +20,7 @@ import com.viewnext.cliente.servicio.ClienteServicio;
 
 @RestController
 @RequestMapping("/cliente")
-@CrossOrigin(origins="*", allowedHeaders = {"x-auth-token", "x-requested-with","x-xsrf-token"})
+//@CrossOrigin(origins="*", allowedHeaders = {"x-auth-token", "x-requested-with","x-xsrf-token"})
 public class ClienteController {
 	
 	@Autowired
@@ -37,7 +37,7 @@ public class ClienteController {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
-	@CrossOrigin(allowedHeaders = {"content-type"})
+	//@CrossOrigin(allowedHeaders = {"content-type"})
 	public HttpEntity<?> actualizarCliente(@RequestBody Cliente cliente){
 		try{
 			 Cliente actualizado = cliServicio.actualizarCliente(cliente); 

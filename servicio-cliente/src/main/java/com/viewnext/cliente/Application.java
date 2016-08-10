@@ -26,10 +26,13 @@ public class Application {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.cors().and().authorizeRequests().anyRequest().authenticated()
+			http
+				.httpBasic().disable();
+			http
+				.authorizeRequests().anyRequest().authenticated()
 			.and()
-			.csrf()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+				.csrf()
+					.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 		}
 		
 	}

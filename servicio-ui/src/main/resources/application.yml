@@ -6,7 +6,22 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   redis:
     host: 192.168.33.25
-  
+zuul:
+  routes:
+    cliente:
+      path: /cliente/**
+      url : http://localhost:8083/cliente
+      sensitive-headers:
+    catalogo: 
+      path : /catalogo/**
+      url : http://localhost:8082/catalogo
+    categoria:
+      path : /categoria/**
+      url : http://localhost:8082/categoria
+    busqueda:
+      path: /busqueda/**
+      url : http://localhost:8081/busqueda
+
 logging:
   level:
     org.springframework.security: DEBUG
