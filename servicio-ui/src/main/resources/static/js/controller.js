@@ -3,57 +3,44 @@ angular.module('inicio')
 	                        function($http,$route,$rootScope,$location){
 		
 		var self = this;
-		self.item = function(ruta){
-			return $route.current && ruta === $route.current.controller;
-		}
-		self.acceso = function(){
-			return $route.current && $route.current.loadedTemplateUrl === 'fragments/login.html';
-		}
-		var autenticar = function(credenciales, callback){
+//		self.item = function(ruta){
+//			return $route.current && ruta === $route.current.controller;
+//		}
+
+		var autenticar = function(credenciales){
 			
-			var headers = credenciales ? {
-					authorization : "Basic " + btoa(credenciales.nombreusuario + ":" + 
-													credenciales.password)
-			}: {};
-			
-			$http.get('/user', {headers : headers})
+			$http.get('/user')
 			.then(function(response){
 				if(response.data.name){
 					$rootScope.nombreusuario = response.data.name;
 					$rootScope.autenticado = true;
+					$http.get('token').then(function(response){
+						$http({
+							url : '/carrito/cantidad',
+							method : 'GET',
+							headers : {
+								'X-Auth-Token' : response.data.token
+							}
+						}).then(function(response){
+							$rootScope.cantidad = response.data;
+						});
+					});
 				}else{
 					$rootScope.nombreusuario = null;
 					$rootScope.autenticado = false;
 				}
-				callback && callback($rootScope.autenticado);
 				//else $location.path('/recomendaciones');
 			}, function(response){
 				$rootScope.nombreusuario = null;
 				$rootScope.autenticado = false;
-				callback && callback($rootScope.autenticado);
 				//else $location.path('/novedades');
 			});
 		};
 		
 		autenticar();
-		self.credenciales = {};
-			
-		self.login = function(){
-			autenticar(self.credenciales, function(autenticado) {
-				if(autenticado){
-					$location.path("/catalogo");
-					$rootScope.authenticated = true;
-					self.error =  false;
-				}else{
-					$location.path("/login");
-					$rootScope.authenticated = false;
-					self.error =  true;
-				}
-			});
-		};
 		
 		self.logout = function(){
-			$http.post('logout', {})
+			$http.post('/logout', {})
 			.finally(function() {
 				$rootScope.nombreusuario = null;
 				$rootScope.autenticado = false;
@@ -63,12 +50,13 @@ angular.module('inicio')
 	}]);
 
 angular.module('catalogo')
-	.controller('CatalogoCtrl',['$location', '$http' ,function($location, $http) {
+	.controller('CatalogoCtrl',['$location', '$http' ,'$rootScope', 
+	                            function($location, $http, $rootScope) {
 		
 		var self = this;
 		
 		var allCategorias = function(){
-			$http.get('categoria/all').then(function(response) {
+			$http.get('/categoria/all').then(function(response) {
 				self.categorias = response.data;
 			});
 		}
@@ -80,11 +68,12 @@ angular.module('catalogo')
 		self.mostrarResult = false;
 		self.mostrarDetalle = false;
 		self.detalle = {};
+		self.cantidad;
 		self.error;
 		self.msg;
 		
 		self.buscar = function(){
-			$http.post('busqueda/', self.filtro)
+			$http.post('/busqueda/', self.filtro)
 			.then(function(response){
 				self.mostrarResult = true;
 				self.mostrarDetalle = false;
@@ -102,7 +91,7 @@ angular.module('catalogo')
 		};
 		
 		self.detalleLibro = function(id){
-			$http.get('catalogo/'+id)
+			$http.get('/catalogo/'+id)
 			.then(function(response){
 				self.mostrarResult = false;
 				self.mostrarDetalle = true;
@@ -113,7 +102,27 @@ angular.module('catalogo')
 			self.mostrarResult = true;
 			self.mostrarDetalle = false;
 			self.detalle = {};
-		}
+		};
+		self.addCarrito = function(){
+			var carrito = {
+				id : self.detalle.id,
+				titulo: self.detalle.titulo,
+				precio: self.detalle.precio,
+				cantidad : self.cantidad
+			};
+			$http.get('token').then(function(response){
+				$http({
+					url : '/carrito/',
+					method : 'PUT',
+					headers : {
+						'X-Auth-Token' : response.data.token
+					},
+					data : carrito
+				}).then(function(response){
+					$rootScope.cantidad = response.data;
+				});
+			});
+		};
 	}]);
 angular.module('cuenta')
 	.controller('CuentaCtrl',['$http','$rootScope', '$location', 
@@ -129,7 +138,7 @@ angular.module('cuenta')
 		
 		$http.get('token').then(function(response){
 			$http({
-				url : 'cliente/' + $rootScope.nombreusuario,
+				url : '/cliente/' + $rootScope.nombreusuario,
 				method : 'GET',
 				headers : {
 					'X-Auth-Token' : response.data.token
@@ -152,7 +161,7 @@ angular.module('cuenta')
 		self.actualizarCuenta = function(){
 			$http.get('token').then(function(response){
 				$http({
-					url : 'cliente/',
+					url : '/cliente/',
 					method : 'PUT',
 					headers : {
 						'X-Auth-Token' : response.data.token
@@ -167,11 +176,59 @@ angular.module('cuenta')
 		};
 		
 		self.cambiarPassword = function(){
-			$http.put('password', self.password)
+			$http.put('/password', self.password)
 			.then(function(){
 				self.password.msg = 'Contraseña actualizada correctamente';
 			}, function(response){
 				self.password.error = response.data; 
 			});
 		}
+	}]);
+angular.module('carrito')
+	.controller('CarritoCtrl',['$http','$location','$rootScope',
+	                           function($http, $location, $rootScope){
+		
+		var self = this;
+		
+		self.items = [];
+		self.total = 0;
+		var calculoTotal = function(){
+			for(var i = 0; i < self.items.length; i++) {
+				self.total += (self.items[i].cantidad * self.items[i].precio);
+			};
+		};
+
+		$http.get('token').then(function(response){
+			$http({
+				url : '/carrito/',
+				method : 'GET',
+				headers : {
+					'X-Auth-Token' : response.data.token
+				}
+			}).then(function(response){
+				self.items = response.data;
+				calculoTotal();
+			});
+		});
+		
+		self.eliminar = function(id){
+			$http.get('token').then(function(response){
+				$http({
+					url : '/carrito/' + id,
+					method : 'DELETE',
+					headers : {
+						'X-Auth-Token' : response.data.token
+					}
+				}).then(function(response){
+					self.items = response.data;
+					$rootScope.cantidad = self.items.length;
+					if($rootScope.cantidad === 0){
+						$location.path('/catalogo');
+					}else{
+						calculoTotal();
+					}
+				});
+			});
+		};
+		
 	}]);

@@ -1,13 +1,13 @@
-angular.module('app',['ngRoute','inicio','catalogo','cuenta'])
+angular.module('app',['ngRoute','inicio','catalogo','cuenta','carrito'])
 	.config(function($routeProvider, $httpProvider) {
 	    $routeProvider.when('/catalogo', { 
-	    	templateUrl: 'fragments/catalogo.html', 
+	    	templateUrl: '/ui/fragments/catalogo.html', 
 	    	controller: 'CatalogoCtrl',
 	    	controllerAs: 'catalogo'});
-	    $routeProvider.when('/login', { 
-	    	templateUrl: 'fragments/login.html',
-	    	controller: 'MenuCtrl',
-	    	controllerAs: "menu"});
+//	    $routeProvider.when('/login', { 
+//	    	templateUrl: '/ui/fragments/login.html',
+//	    	controller: 'MenuCtrl',
+//	    	controllerAs: "menu"});
 //	    $routeProvider.when('/novedades',{
 //	    	templateUrl: 'fragments/novedades.html',
 //	    	controller: 'CatalogoCtrl',
@@ -17,16 +17,27 @@ angular.module('app',['ngRoute','inicio','catalogo','cuenta'])
 //	    	controller: 'CatalogoCtrl',
 //	    	controllerAs: 'catalogo'});
 	    $routeProvider.when('/cuenta', { 
-	    	templateUrl: 'fragments/cuenta.html',
+	    	templateUrl: '/ui/fragments/cuenta.html',
 	    	controller: 'CuentaCtrl',
 	    	controllerAs: "cuenta"});
+	    $routeProvider.when('/verCarrito', {
+	    	templateUrl: '/ui/fragments/carrito.html',
+	    	controller : 'CarritoCtrl',
+	    	controllerAs: "carrito"});
 	    $routeProvider.otherwise({ redirectTo: '/catalogo' });
 	    
 	    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 	});
 angular.module('inicio',[]);
-angular.module('catalogo',[]);
+angular.module('catalogo',['ngCookies','csrf-cross-domain'])
+.config(function(csrfCDProvider){
+	csrfCDProvider.setAllowedMethods(['PUT','DELETE']);
+});
 angular.module('cuenta',['ngCookies','csrf-cross-domain'])
 	.config(function(csrfCDProvider){
 		csrfCDProvider.setAllowedMethods(['PUT']);
+	});
+angular.module('carrito',['ngCookies','csrf-cross-domain'])
+	.config(function(csrfCDProvider){
+		csrfCDProvider.setAllowedMethods(['PUT','DELETE']);
 	});

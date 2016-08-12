@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: servicio-gateway
+Implementation-Version: 1.0.0
+Built-By: 0003299
+Implementation-Vendor-Id: com.viewnext.microlibreria
+Build-Jdk: 1.8.0_92
+Implementation-URL: http://projects.spring.io/spring-boot/servicio-gat
+ eway/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

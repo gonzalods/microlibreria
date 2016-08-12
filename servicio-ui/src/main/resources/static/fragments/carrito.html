@@ -1,0 +1,22 @@
+<h2>Detalle Carrito</h2>
+<table>
+	<tr>
+		<th>Libro</th>
+		<th>Cantidad</th>
+		<th>Precio Unitario</th>
+		<th>Precio Total</th>
+		<th></th>
+	</tr>
+	<tr ng-repeat="item in carrito.items">
+		<td>{{item.titulo}}</td>
+		<td align="right">{{item.cantidad}}</td>
+		<td align="right">{{item.precio}}</td>
+		<td align="right">{{item.cantidad * item.precio}}</td>
+		<td><button ng-click="carrito.eliminar(item.id)">Eliminar</button></td>
+	</tr>
+	<tr>
+		<td colspan="3" align="right">Total:</td>
+		<td id="td_total" align="right">{{carrito.total}}</td>
+		<td></td>
+	</tr>
+</table>

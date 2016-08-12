@@ -43,5 +43,9 @@
 			<dd>{{catalogo.detalle.categoria.descripcion }}</dd>
 		</dl>
 		<a href="" ng-click="catalogo.volver()">Volver</a>
+		<div ng-show="autenticado">
+			<a href="" ng-click="catalogo.addCarrito()">Añadir a Carrito</a>
+			<input ng-model="catalogo.cantidad" size="4">
+		</div>
 	</div>
 </div>
