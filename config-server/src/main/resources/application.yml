@@ -1,0 +1,10 @@
+server:
+  port: 8888
+spring:
+  config:
+    name: configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://192.168.33.25:10080/formacion/libreria-conf

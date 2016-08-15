@@ -5,23 +5,30 @@
   tasks:
     - name: install docker package
       yum: pkg=docker state=latest
+    - name: config docker for insecure registry
+      replace: dest=/etc/sysconfig/docker regexp="^#INSECURE_REGISTRY='--insecure-registry'$" replace="INSECURE_REGISTRY='--insecure-registry 192.168.33.25:5000'"
     - name: create new group docker
       shell: groupadd docker
     - name: add user vagrant to docker group
       shell: usermod -aG docker vagrant
     - name: start docker
       service: name=docker state=started enabled=yes
-    - name: install mysql
-      shell: docker run --restart=unless-stopped --name mysql-lib -p 3306:3306 -v /vagrant/sql:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=viewnext -d mysql --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    - name: install docker registry
+      shell: docker run -d -p 5000:5000 --name lib-registry registry:2
+    - name: install mysql docker
+      shell: docker run --restart=unless-stopped --name lib-mysql -p 3306:3306 -v /vagrant/sql:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=viewnext -d mysql --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     - name: install elasticseach docker
-      shell: docker run --restart=unless-stopped -d -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
+      shell: docker run --restart=unless-stopped -d -p 9200:9200 -p 9300:9300 --name lib-elasticsearch elasticsearch
     - name: install kibana docker
-      shell: docker run --restart=unless-stopped -d --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
+      shell: docker run --restart=unless-stopped -d --link lib-elasticsearch:elasticsearch -p 5601:5601 --name lib-kibana kibana
     - name: create index catalogo elasticsearch
       shell: 'curl -X PUT "http://localhost:9200/catalogo"'
     - name: load catalogo elasticsearch
       shell: 'curl -X POST -H "Content-Type: application/json" "http://localhost:9200/catalogo/busqueda/_bulk?pretty" --data-binary "@/vagrant/catalogo_elastic.json"'
-    - name: install rabbitmq-management
+    - name: install rabbitmq-management docker
       shell: docker run --restart=unless-stopped -d --hostname lib-rabbit --name lib-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-    - name: install redis
+    - name: install redis docker
       shell: docker run --restart=unless-stopped -d --name lib-redis -p 6379:6379 redis
+    - name: install gogs docker
+      shell: docker run --restart=unless-stopped -d --name lib-gogs -p 10022:22 -p 10080:3000 gogs/gogs
+    

@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: servicio-busqueda
+  cloud:
+    config:
+      uri: http://192.168.33.25:8888
+
