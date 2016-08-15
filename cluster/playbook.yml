@@ -7,7 +7,7 @@
       yum: pkg=docker state=latest
     - name: create new group docker
       shell: groupadd docker
-    - name: add user vagrant to docker group
+    - name: add user vagrant to docker group 
       shell: usermod -aG docker vagrant
     - name: start docker
       service: name=docker state=started enabled=yes
