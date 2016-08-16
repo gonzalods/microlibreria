@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -22,10 +24,14 @@ import com.viewnext.micro.busqueda.servicio.BusquedaServicio;
 
 @RestController
 @CrossOrigin
+@RefreshScope
 public class BusquedaController {
 
 	@Autowired
 	private BusquedaServicio servicio;
+	
+	@Value("${busqueda.excludido}")
+	private Long idExcluido;
 	
 	@RequestMapping(value="/busqueda", method = RequestMethod.POST, consumes="application/json")
 	public HttpEntity<?> busqueda(@RequestBody FiltroBusqueda filtro){
@@ -49,6 +55,9 @@ public class BusquedaController {
 	private ResponseEntity<RespuestaBusqueda> crearRespuesta(Page<BusquedaDocument> result){
 		
 		List<Libro> libros = result.getContent().stream()
+				.filter(item -> {
+					return Long.parseLong(item.getId()) != idExcluido;
+				})
 				.map(item ->{
 					Libro lib = new Libro();
 					lib.setId(Long.parseLong(item.getId()));

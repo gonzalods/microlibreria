@@ -8,3 +8,8 @@ spring:
       server:
         git:
           uri: http://192.168.33.25:10080/formacion/libreria-conf
+  rabbitmq:
+    host: 192.168.33.25 
+    port: 5672
+    username: guest
+    password: guest
