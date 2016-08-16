@@ -9,7 +9,7 @@
       replace: dest=/etc/sysconfig/docker regexp="^#INSECURE_REGISTRY='--insecure-registry'$" replace="INSECURE_REGISTRY='--insecure-registry 192.168.33.25:5000'"
     - name: create new group docker
       shell: groupadd docker
-    - name: add user vagrant to docker group
+    - name: add user vagrant to docker group 
       shell: usermod -aG docker vagrant
     - name: start docker
       service: name=docker state=started enabled=yes
