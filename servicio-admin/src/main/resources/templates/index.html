@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>Libreria Admin</title>
+<link href="../static/css/admin.css" th:href="@{/admin/css/admin.css}" rel="stylesheet" media="screen"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="../static/js/admin.js" th:src="@{/admin/js/admin.js}"></script>
+</head>
+<body>
+	<header th:fragment="header">
+		<h3>Libreria Administración</h3>
+		<a id="logout" href="#">Salir</a>
+	</header>
+	<nav th:fragment="menu">
+		<ul>
+			<li>Gestión Catálogo
+				<ul>
+					<li><a href="catalogo.html" th:href="@{/admin/catalogo}">Actualizar Libros</a></li>
+					<li><a href="nuevoLibro.html" th:href="@{/admin/nuevoLibro}">Añadir Libro</a></li>
+					<li><a href="#">Actualizar Categorías</a></li>
+					<li><a href="#">Añadir Categoría</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+	</nav>
+	<section><h2>Página de inicio para la administración de la libreria</h2></section>
+</body>
+</html>

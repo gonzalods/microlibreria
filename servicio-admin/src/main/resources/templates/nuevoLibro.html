@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>Libreria Admin</title>
+	<link href="../static/css/admin.css" th:href="@{/admin/css/admin.css}" rel="stylesheet" media="screen"/>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script src="../static/js/admin.js" th:src="@{/admin/js/admin.js}"></script>
+	<script src="../static/js/catalogo.js" th:src="@{/admin/js/catalogo.js}"></script>
+</head>
+<body>
+	<header th:replace="index :: header"></header>
+	<nav th:replace="index :: menu"></nav>
+	<section>
+		<h2>Nuevo Libro</h2>
+		<div th:if="${msg} != null"><span th:text="${msg}" style="color: blue;"></span> </div>
+
+		<form id="formdetalle" action="nuevo" th:action="@{/admin/nuevo}" th:object="${libro}" method="post">
+			<input type="hidden" name="autores" th:each="autor : *{autores}" th:value="${autor}"/>
+		<dl th:replace="formLibro :: formLibro">
+		</dl>
+		<button type="submit">Guardar</button>
+		</form>
+	</section>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Libreria Admin</title>
+	<link href="../static/css/admin.css" th:href="@{/admin/css/admin.css}" rel="stylesheet" media="screen"/>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script src="../static/js/admin.js" th:src="@{/admin/js/admin.js}"></script>
+	<script src="../static/js/catalogo.js" th:src="@{/admin/js/catalogo.js}"></script>
+</head>
+
+<body>
+	<header th:replace="index :: header"></header>
+	<nav th:replace="index :: menu"></nav>
+	<section>
+	<h2>Gestión Catálogo</h2>
+	<form action="busqueda" th:action="@{/admin/busqueda}" th:object="${filtro}" method="post">
+		<table>
+			<tr>
+				<td><input type="submit" value="Buscar"/></td>
+				<td> <input th:field="*{busqueda}"/></td>
+				<td> <select th:field="*{categoria}">
+						<option value="">Seleccione una Categoría</option>
+						<option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.descripcion}"></option>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<div th:if="${libros} != null">
+		<br/>
+		<h2>Resultado Búsqueda</h2>
+		<div th:if="${#lists.isEmpty(libros)}"><span style="color: red">No hay resultados para el criterio de búqueda</span></div>
+		<ol>
+			<li th:each="lib : ${libros}"><span th:text="${lib.titulo}">Titulo</span> (<span th:text="${lib.precio}">Precio</span>)
+				 (<a href="" th:href="@{/admin/detalle(id=${lib.id},busqueda=${filtro.busqueda},categoria=${filtro.categoria})}">Detalle</a>)</li>
+		</ol>
+	</div>
+	<div th:if="${libro} != null">
+
+		<h2>Modificación Libro</h2>
+		<div th:if="${msg} != null"><span th:text="${msg}" style="color: blue;"></span> </div>
+
+		<form id="formdetalle" action="actualizar" th:action="@{/admin/actualizar}" th:object="${libro}" method="post">
+			<input type="hidden" name="id" th:field="*{id}"/>
+			<input type="hidden" name="busqueda" th:value="${filtro.busqueda}"/>
+			<input type="hidden" name="categoriabusq" th:value="${filtro.categoria}"/>
+			<input type="hidden" name="autores" th:each="autor : *{autores}" th:value="${autor}"/>
+		<dl th:replace="formLibro :: formLibro">
+
+		</dl>
+		<button type="submit">Actualizar</button>
+		<a href="" th:href="@{/admin/eliminar(id=*{id},,busqueda=${filtro.busqueda},categoria=${filtro.categoria})}">Eliminar</a>
+		</form>
+
+		<a id="volver" href="#">Volver</a>
+		<form id="formvolver" action="busqueda" th:action="@{/admin/busqueda}" th:object="${filtro}" method="post">
+			<input type="hidden" th:field="*{busqueda}"/>
+			<input type="hidden" th:field="*{categoria}"/>
+		</form>
+
+	</div>
+	</section>
+</body>
+</html>

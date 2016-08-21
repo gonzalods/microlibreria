@@ -1,0 +1,17 @@
+header {
+	padding-left: 2%;
+}
+nav{
+	position: absolute;
+	left: 0px;
+	width: 20%;
+	border: 1px 1px;
+}
+section{
+	margin-left: 20%;
+}
+
+.autores{
+	width: 200px;
+}
+

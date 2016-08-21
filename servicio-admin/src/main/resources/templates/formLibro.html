@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<dl th:fragment="formLibro">
+		<dt>Titulo</dt>
+		<dd><input th:field="*{titulo}"/></dd>
+		<dt>Descripción:</dt>
+		<dd><textarea cols="80" rows="4" th:field="*{descripcion}"></textarea></dd>
+		<dt>Precio:</dt>
+		<dd><input name="precio" th:field="*{precio}"/></dd>
+		<dt>Año:</dt>
+		<dd><input name="anno" th:field="*{anno}"/></dd>
+		<dt>Autor:</dt>
+		<dd> <table> 
+				<tr>
+					<td valign="top"><input id="autor"/></td>
+					<td valign="top"><button id="anadir" onclick="">Añadir</button><br/>
+						<button id="modificar">Modificar</button><br/>
+						<button id="eliminar">Eliminar</button>
+					</td>
+					<td>
+						<select class="autores" multiple="multiple" id="autores">
+							<option th:each="autor : *{autores}" th:value="${autor}" th:text="${autor}"></option>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</dd>
+		<dt>ISBN:</dt>
+		<dd><input name="isbn" th:field="*{isbn}"/></dd>
+		<dt>Categoría:</dt>
+		<dd><select th:field="*{categoria.id}">
+				<option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.descripcion}">{{descripcion}}</option>
+			</select>
+		 </dd>
+	</dl>
+</html>
