@@ -1,5 +1,6 @@
 package com.viewnext.cliente.servicio;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
 	@Override
 	public Cliente guardarCliente(Cliente cliente) {
+		cliente.setFechaAlta(new Date());
 		Optional<Cliente> cli = buscarPorNombreusuario(cliente.getNombreusuario());
 		if(cli.isPresent()){
 			throw new NombreusuarioYaExisteException();
@@ -34,10 +36,6 @@ public class ClienteServicioImpl implements ClienteServicio {
 		if(!cliRepo.exists(cliente.getId())){
 			throw new ClienteNoExistenteException();
 		}
-//		Optional<Cliente> cli = buscarPorNombreusuario(cliente.getNombreusuario());
-//		if(cli.isPresent()){
-//			throw new NombreusuarioYaExisteException();
-//		}
 		return cliRepo.save(cliente);
 	}
 

@@ -39,7 +39,7 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 
 	@Override
 	public Libro actualizarLibro(Libro libro) {
-		if(libroRepo.exists(libro.getId())){
+		if(!libroRepo.exists(libro.getId())){
 			throw new RuntimeException("Libro no existe");
 		}
 		libroRepo.save(libro);

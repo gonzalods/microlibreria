@@ -24,6 +24,7 @@ angular.module('app',['ngRoute','inicio','catalogo','cuenta','carrito'])
 	    	templateUrl: '/ui/fragments/carrito.html',
 	    	controller : 'CarritoCtrl',
 	    	controllerAs: "carrito"});
+	    $routeProvider.when('/cuentanueva',{redirectTo: '/cuenta'});
 	    $routeProvider.otherwise({ redirectTo: '/catalogo' });
 	    
 	    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

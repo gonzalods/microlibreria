@@ -3,6 +3,7 @@ angular.module('inicio')
 	                        function($http,$route,$rootScope,$location){
 		
 		var self = this;
+		console.log('location path:' + window.location);
 //		self.item = function(ruta){
 //			return $route.current && ruta === $route.current.controller;
 //		}
@@ -130,11 +131,12 @@ angular.module('cuenta')
 		var self = this;
 		
 		self.cuenta = {};
-		self.password = {};
+		self.password;
 		self.cuenta.msg;
 		self.cuenta.error;
-		self.password.msg;
-		self.password.error;
+		self.password_msg;
+		self.password_error;
+		self.repitapassword;
 		
 		$http.get('token').then(function(response){
 			$http({
@@ -159,6 +161,7 @@ angular.module('cuenta')
 //		});
 		
 		self.actualizarCuenta = function(){
+			//limpiarCampos();
 			$http.get('token').then(function(response){
 				$http({
 					url : '/cliente/',
@@ -176,13 +179,34 @@ angular.module('cuenta')
 		};
 		
 		self.cambiarPassword = function(){
-			$http.put('/password', self.password)
+			//limpiarCampos();
+			if(self.password.trim().length == 0){
+				self.password_error = 'Debe indicar una nueva contraseña';
+				return;
+			}
+			if(self.password != self.repitapassword){
+				self.password_error = 'Las contraseñas no coinciden';
+				return;
+			}
+			self.password_error=null;
+			$http.put('/password', {password : self.password})
 			.then(function(){
-				self.password.msg = 'Contraseña actualizada correctamente';
+				self.password_msg = 'Contraseña actualizada correctamente';
+				self.password = null;
+				self.repitapassword=null;
+				
 			}, function(response){
-				self.password.error = response.data; 
+				self.password_error = response.data; 
 			});
-		}
+		};
+//		var limpiarCampos(){
+//			self.cuenta.msg = null;
+//			self.cuenta.error = null;
+//			self.password = null;
+//			self.repitapassword = null;
+//			self.password_msg = null;
+//			self.password_error = null;
+//		}
 	}]);
 angular.module('carrito')
 	.controller('CarritoCtrl',['$http','$location','$rootScope',

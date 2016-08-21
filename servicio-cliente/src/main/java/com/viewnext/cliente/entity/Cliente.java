@@ -21,7 +21,7 @@ public class Cliente {
 	private String apellidos;
 	@Temporal(TemporalType.DATE)
 	private Date fechaNacimiento;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaAlta;
 	private String email;
 	@Embedded

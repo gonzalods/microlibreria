@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.session.web.http.HeaderHttpSessionStrategy;
+import org.springframework.session.web.http.HttpSessionStrategy;
 
 @SpringBootApplication
 @EnableRedisRepositories
@@ -20,7 +21,7 @@ public class ServicioCarritoApplication {
 	
 
 	@Bean
-	public HeaderHttpSessionStrategy sessionStrategy(){
+	public HttpSessionStrategy sessionStrategy(){
 		return new HeaderHttpSessionStrategy();
 	}
 	

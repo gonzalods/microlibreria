@@ -43,20 +43,19 @@ USE lib_cliente;
 
 CREATE TABLE CLI_CLIENTE(
 	ID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	NOMBRE VARCHAR(25) NOT NULL,
+	NOMBRE VARCHAR(25),
 	APELLIDOS VARCHAR(50),
 	FECHANACIMIENTO DATE,
-	FECHAALTA DATE,
+	FECHAALTA DATETIME DEFAULT CURRENT_TIMESTAMP,
 	EMAIL VARCHAR(50),
 	CALLE VARCHAR(50),
 	NUMERO VARCHAR(4),
 	PISO VARCHAR(10),
 	CIUDAD VARCHAR(25),
 	CODIGOPOSTAL VARCHAR(10),
-	NOMBREUSUARIO VARCHAR(10));
+	NOMBREUSUARIO VARCHAR(250) NOT NULL);
 	
-INSERT INTO CLI_CLIENTE (NOMBRE,APELLIDOS,FECHANACIMIENTO,FECHAALTA,EMAIL,CALLE,NUMERO,PISO,CIUDAD,CODIGOPOSTAL,NOMBREUSUARIO) VALUES('Usuario Uno','Libreria','1981-09-03', '2013-10-24','usuario1.libreria@viewnext.com','Calle','4','1º Dch.','Madrid','28021','usuariouno');
-INSERT INTO CLI_CLIENTE (NOMBRE,APELLIDOS,FECHANACIMIENTO,FECHAALTA,EMAIL,CALLE,NUMERO,PISO,CIUDAD,CODIGOPOSTAL,NOMBREUSUARIO) VALUES('Usuario Dos','Libreria','1979-03-22', '2016-01-07','usuario2.libreria@viewnext.com','Avenida','6','1º Izda.','Madrid','28009','usuariodos');	
+INSERT INTO CLI_CLIENTE (NOMBRE,APELLIDOS,FECHANACIMIENTO,FECHAALTA,EMAIL,CALLE,NUMERO,PISO,CIUDAD,CODIGOPOSTAL,NOMBREUSUARIO) VALUES('Usuario Uno','Libreria','1981-09-03', '2013-10-24 00:00:00','usuario.libreria@viewnext.com','Calle','4','1º Dch.','Madrid','28021','usuario');
 
 USE lib_acceso;
 
@@ -71,9 +70,7 @@ create table authorities (
   authority varchar(256)
 );
 
-insert into users (username, password, enabled) values ('usuariouno', 'viewnext', true);
-insert into authorities (username, authority) values ('usuariouno', 'ROLE_USUARIO');
-insert into users (username, password, enabled) values ('usuariodos', 'viewnext', true);
-insert into authorities (username, authority) values ('usuariodos', 'ROLE_USUARIO');
-insert into users (username, password, enabled) values ('adminuno', 'viewnext', true);
-insert into authorities (username, authority) values ('adminuno', 'ROLE_ADMIN');
+insert into users (username, password, enabled) values ('usuario', 'viewnext', true);
+insert into authorities (username, authority) values ('usuario', 'ROLE_USUARIO');
+insert into users (username, password, enabled) values ('admin', 'viewnext', true);
+insert into authorities (username, authority) values ('admin', 'ROLE_ADMIN');

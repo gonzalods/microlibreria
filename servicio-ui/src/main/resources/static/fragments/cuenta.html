@@ -57,17 +57,21 @@
 	</form>
 	<br>
 	<h3>Cambiar Contraseña</h3>
-	<div ng-show="cuenta.password.msg">
-		<span style="color: blue;">{{cuenta.password.msg}}</span>
+	<div ng-show="cuenta.password_msg">
+		<span style="color: blue;">{{cuenta.password_msg}}</span>
 	</div>
-	<div ng-show="cuenta.password.error">
-		<span style="color: red;">{{cuenta.password.error}}</span>
+	<div ng-show="cuenta.password_error">
+		<span style="color: red;">{{cuenta.password_error}}</span>
 	</div>
 	<form ng-submit="cuenta.cambiarPassword()">
 		<table>
 			<tr>
 				<td><label for="password">Contraseña Nueva</label></td>
-				<td><input type="password" name="password" id="password" ng-model="cuenta.password.password">
+				<td><input type="password" name="password" id="password" ng-model="cuenta.password">
+			</tr>
+			<tr>
+				<td><label for="password">Repita Contraseña Nueva</label></td>
+				<td><input type="password" id="password" ng-model="cuenta.repitapassword">
 			</tr>
 			<tr>
 				<td><button type="submit">Cambiar Contraseña</button></td>
