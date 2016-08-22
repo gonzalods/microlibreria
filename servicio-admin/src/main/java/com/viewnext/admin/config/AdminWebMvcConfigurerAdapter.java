@@ -11,7 +11,6 @@ public class AdminWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("").setViewName("index");
-		//registry.addViewController("formLibro").setViewName("formLibro");
 	}
 
 	@Override

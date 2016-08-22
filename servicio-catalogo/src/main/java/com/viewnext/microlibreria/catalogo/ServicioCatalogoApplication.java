@@ -40,7 +40,7 @@ public class ServicioCatalogoApplication {
 					.antMatchers(HttpMethod.GET).permitAll()
 				.anyRequest().hasRole("ADMIN")
 			.and()
-				.csrf()
+				.csrf()//.disable();
 					.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 					
 			
