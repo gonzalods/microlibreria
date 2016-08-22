@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,10 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 	private RabbitMessagingTemplate rabbitTemplate;
 	
 	@Autowired
+	
 	public CatalogoServicioImpl(LibroRepositorio libroRepo,  
-			RabbitMessagingTemplate rabbitTemplate, MessageConverter jackson2Converter){
+			RabbitMessagingTemplate rabbitTemplate, 
+			@Qualifier(value="jackson2MessageConverter") MessageConverter jackson2Converter){
 		this.libroRepo = libroRepo;
 		this.rabbitTemplate = rabbitTemplate;
 		rabbitTemplate.setMessageConverter(jackson2Converter);

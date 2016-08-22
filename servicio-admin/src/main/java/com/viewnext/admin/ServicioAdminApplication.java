@@ -2,6 +2,7 @@ package com.viewnext.admin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import com.viewnext.admin.config.AdminWebMvcConfigurerAdapter;
 
 @SpringBootApplication
+@EnableEurekaClient
 public class ServicioAdminApplication {
 
 	public static void main(String[] args) {

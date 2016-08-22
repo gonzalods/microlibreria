@@ -3,6 +3,7 @@ package com.viewnext.microlibreria.catalogo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @SpringBootApplication
+@EnableEurekaClient
 public class ServicioCatalogoApplication {
 
 	public static void main(String[] args) {
