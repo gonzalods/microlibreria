@@ -26,6 +26,8 @@
 			</tr>
 		</table>
 	</form>
+	<div th:if="${servicionodisponible}">
+		<p style="color: red">El servicío de gestión de búsqueda no esta disponible en estos momentos</p></div>
 	<div th:if="${libros} != null">
 		<br/>
 		<h2>Resultado Búsqueda</h2>

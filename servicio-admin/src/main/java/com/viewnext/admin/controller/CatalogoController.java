@@ -32,14 +32,26 @@ public class CatalogoController {
 	}
 	
 	@GetMapping("/catalogo")
-	public String catalogo(@ModelAttribute("filtro") FiltroBusqueda filtro){
-		return "catalogo";
+	public String catalogo(@ModelAttribute("filtro") FiltroBusqueda filtro , 
+			@ModelAttribute("categorias") List<Categoria> categorias,Model model){
+		if(categorias.isEmpty()){
+			model.addAttribute("sevicionodisponible", true);
+			return "index";
+		}else{
+			model.addAttribute("sevicionodisponible", false);
+			return "catalogo";
+		}
 	}
 	
 	@PostMapping("/busqueda")
 	public String busqueda(@ModelAttribute("filtro") FiltroBusqueda filtro, Model model){
 		RespuestaBusqueda respuesta = catalogoServicio.buscarPorCriterios(filtro);
-		model.addAttribute("libros", respuesta.getLibros());
+		if(respuesta == null){
+			model.addAttribute("servicionodisponible", true);
+		}else{
+			model.addAttribute("servicionodisponible", false);
+			model.addAttribute("libros", respuesta.getLibros());
+		}
 		return "catalogo";
 	}
 	
@@ -54,10 +66,8 @@ public class CatalogoController {
 	
 	@PostMapping("/actualizar")
 	public String actualizar(Libro libro, @RequestParam("busqueda")String busqueda, 
-			@RequestParam("categoriabusq")Long categoriabusq, 
-			@RequestParam("_csrf") String csfr, HttpSession session, Model model){
+			@RequestParam("categoriabusq")Long categoriabusq, HttpSession session, Model model){
 		SecurityTokens st = new SecurityTokens();
-		st.setCsrf(csfr);
 		st.setSession(session.getId());
 		SessionTokens.set(st);
 		catalogoServicio.actualizarLibro(libro);
@@ -70,8 +80,16 @@ public class CatalogoController {
 	}
 
 	@GetMapping("/nuevoLibro")
-	public String nuevo(@ModelAttribute("libro") Libro libro){
-		return "nuevoLibro";
+	public String nuevo(@ModelAttribute("libro") Libro libro,
+			@ModelAttribute("categorias") List<Categoria> categorias,Model model){
+		
+		if(categorias.isEmpty()){
+			model.addAttribute("sevicionodisponible", true);
+			return "index";
+		}else{
+			model.addAttribute("sevicionodisponible", false);
+			return "nuevoLibro";
+		}
 	}
 	
 	@PostMapping("/nuevo")

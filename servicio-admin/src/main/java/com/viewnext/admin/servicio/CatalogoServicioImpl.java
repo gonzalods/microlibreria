@@ -18,6 +18,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.viewnext.admin.bean.Categoria;
 import com.viewnext.admin.bean.FiltroBusqueda;
 import com.viewnext.admin.bean.Libro;
@@ -42,6 +43,7 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 		this.adminProperties = adminConfig;
 	}
 	
+	@HystrixCommand(fallbackMethod="listaCatNoDisponible")
 	@Override
 	public List<Categoria> todasCategorias() {
 		String url = adminProperties.getCatalogoUrl() + "/categoria/all";
@@ -51,6 +53,10 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 						});
 		getXsrfToken(catsResponse.getHeaders().get("Set-Cookie"));
 		return catsResponse.getBody();
+	}
+	
+	public List<Categoria> listaCatNoDisponible(){
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -76,6 +82,7 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 
 	}
 
+	@HystrixCommand(fallbackMethod="busquedaNoDisponible")
 	@Override
 	public RespuestaBusqueda buscarPorCriterios(FiltroBusqueda filtro) {
 		String url = adminProperties.getBusquedaUrl() + "/busqueda";
@@ -92,6 +99,10 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 		return busquedaResponse.getBody();
 	}
 
+	public RespuestaBusqueda busquedaNoDisponible(FiltroBusqueda filtro){
+		return null;
+	}
+	
 	@Override
 	public Libro buscarLibroPorId(Long id) {
 		String url = adminProperties.getCatalogoUrl() + "/catalogo/{id}";
