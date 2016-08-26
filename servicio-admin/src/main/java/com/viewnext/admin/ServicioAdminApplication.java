@@ -8,6 +8,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpResponse;
@@ -23,14 +24,15 @@ import com.viewnext.admin.config.AdminWebMvcConfigurerAdapter;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableCircuitBreaker
+@EnableFeignClients
 public class ServicioAdminApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServicioAdminApplication.class, args);
 	}
 	
-	@Bean
-	@LoadBalanced
+//	@Bean
+//	@LoadBalanced
 	RestTemplate restTemplate(RestTemplateBuilder builder){
 		return builder.errorHandler(new ResponseErrorHandler() {
 			

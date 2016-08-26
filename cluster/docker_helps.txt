@@ -1,2 +1,6 @@
 -- docker mysql command line client
 docker run -it --link mysql-lib:mysql --rm mysql sh -c 'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -uroot -p"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"'
+-- docker 192.168.33.25:5000/config-server
+docker run -d --name lib-config -p 8888:8888 --restart=unless-stopped 192.168.33.25:5000/config-server
+-- docker 192.168.33.25:5000/eureka-server
+docker run -d --name lib-eureka -p 8761:8761 --restart=unless-stopped 192.168.33.25:5000/eureka-server

@@ -5,8 +5,10 @@
   tasks:
     - name: install docker package
       yum: pkg=docker state=latest
+    - name: config docker for api http
+      replace: dest=/etc/sysconfig/docker regexp="^OPTIONS='--selinux-enabled --log-driver=journald'$" replace="OPTIONS='--selinux-enabled --log-driver=journald -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock'"    
     - name: config docker for insecure registry
-      replace: dest=/etc/sysconfig/docker regexp="^#INSECURE_REGISTRY='--insecure-registry'$" replace="INSECURE_REGISTRY='--insecure-registry 192.168.33.25:5000'"
+      replace: dest=/etc/sysconfig/docker regexp="^# INSECURE_REGISTRY='--insecure-registry'$" replace="INSECURE_REGISTRY='--insecure-registry 192.168.33.25:5000'"
     - name: create new group docker
       shell: groupadd docker
     - name: add user vagrant to docker group 
@@ -21,6 +23,12 @@
       shell: docker run --restart=unless-stopped -d -p 9200:9200 -p 9300:9300 --name lib-elasticsearch elasticsearch
     - name: install kibana docker
       shell: docker run --restart=unless-stopped -d --link lib-elasticsearch:elasticsearch -p 5601:5601 --name lib-kibana kibana
+    - name: install rabbitmq-management docker
+      shell: docker run --restart=unless-stopped -d --hostname lib-rabbit --name lib-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+    - name: install redis docker
+      shell: docker run --restart=unless-stopped -d --name lib-redis -p 6379:6379 redis
+    - name: install gogs docker
+      shell: docker run --restart=unless-stopped -d --name lib-gogs -p 10022:22 -p 10080:3000 gogs/gogs
     - name: create index catalogo elasticsearch
       uri:
         url: http://localhost:9200/catalogo
@@ -32,9 +40,8 @@
         method: POST
         body: "{{lookup('file','/vagrant/catalogo_elastic.json')}}"
 #      shell: 'curl -X POST -H "Content-Type: application/json" "http://localhost:9200/catalogo/busqueda/_bulk?pretty" --data-binary "@/vagrant/catalogo_elastic.json"'
-    - name: install rabbitmq-management docker
-      shell: docker run --restart=unless-stopped -d --hostname lib-rabbit --name lib-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management
     - name: create queue catalogo.create
+#      shell: curl -i -u guest:guest -H "content-type:application/json" -XPUT -d'{"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@lib-rabbit"}' http://localhost:15672/api/queues/%2f/catalogo.update
       uri: 
         url: http://localhost:15672/api/queues/%2f/catalogo.create
         method : PUT
@@ -60,9 +67,4 @@
         password: guest
         body: {"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@lib-rabbit"}
         force_basic_auth: yes
-        body_format: json                
-    - name: install redis docker
-      shell: docker run --restart=unless-stopped -d --name lib-redis -p 6379:6379 redis
-    - name: install gogs docker
-      shell: docker run --restart=unless-stopped -d --name lib-gogs -p 10022:22 -p 10080:3000 gogs/gogs
-
+        body_format: json
