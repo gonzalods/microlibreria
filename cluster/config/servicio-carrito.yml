@@ -1,0 +1,8 @@
+security:
+  sessions: NEVER
+logging:
+  level:
+    org.springframework: 
+      security: DEBUG
+      session: TRACE
+      data.redis : DEBUG     
