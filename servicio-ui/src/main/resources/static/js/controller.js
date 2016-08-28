@@ -217,6 +217,7 @@ angular.module('carrito')
 		self.items = [];
 		self.total = 0;
 		var calculoTotal = function(){
+			self.total = 0;
 			for(var i = 0; i < self.items.length; i++) {
 				self.total += (self.items[i].cantidad * self.items[i].precio);
 			};

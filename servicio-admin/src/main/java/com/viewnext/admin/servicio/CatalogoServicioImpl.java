@@ -24,7 +24,7 @@ import com.viewnext.admin.security.SessionTokens;
 @Lazy
 public class CatalogoServicioImpl implements CatalogoServicio {
 
-	private AdminProperties adminProperties;
+	//private AdminProperties adminProperties;
 	
 	//private String catalogoXsrfToke;
 	
@@ -37,10 +37,10 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 //	private RestTemplate restTemplateCatalogo;
 //	@Autowired
 //	private RestTemplate restTemplateBusqueda;
-	@Autowired
-	public CatalogoServicioImpl(AdminProperties adminConfig) {
-		this.adminProperties = adminConfig;
-	}
+//	@Autowired
+//	public CatalogoServicioImpl(AdminProperties adminConfig) {
+//		this.adminProperties = adminConfig;
+//	}
 	
 //	@HystrixCommand(/*fallbackMethod="listaCatNoDisponible"*/)
 	@Override

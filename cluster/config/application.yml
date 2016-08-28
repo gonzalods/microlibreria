@@ -1,0 +1,17 @@
+server:
+  port: ${PORT:8080}
+spring:
+  rabbitmq:
+    host: 192.168.33.25 
+    port: 5672
+    username: guest
+    password: guest
+  redis:
+    host: 192.168.33.25
+    port: 6379
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.33.25:8761/eureka/
+  instance:
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}      

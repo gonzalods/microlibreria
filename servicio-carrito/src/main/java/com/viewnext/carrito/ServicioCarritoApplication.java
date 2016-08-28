@@ -37,8 +37,8 @@ public class ServicioCarritoApplication {
 			http
 				.authorizeRequests().anyRequest().authenticated()
 			.and()
-				.csrf()
-					.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+				.csrf().disable();
+//					.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 		}
 	}
 }

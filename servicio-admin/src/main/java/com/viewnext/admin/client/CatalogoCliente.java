@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.viewnext.admin.bean.Categoria;
 import com.viewnext.admin.bean.Libro;
 
-@FeignClient(name="servicio-catalogo", /*url="${admin.catalogo-url}"*/ url="http://localhost:9082", 
-			configuration=CatalogoClientConfig.class, fallback=CatalogoClienteFallback.class)
+@FeignClient(name="servicio-catalogo", /*url="${admin.catalogo-url}" url="http://localhost:9082",*/ 
+			fallback=CatalogoClienteFallback.class)
 public interface CatalogoCliente {
 
 	@RequestMapping(value="/categoria/all")
@@ -21,12 +21,12 @@ public interface CatalogoCliente {
 	@RequestMapping(value="/catalogo/{id}")
 	Libro buscarLibroPorId(@PathVariable("id")Long id);
 	
-	@RequestMapping(value="/categoria/{id}", method=RequestMethod.PUT)
+	@RequestMapping(value="/catalogo/{id}", method=RequestMethod.PUT)
 	ResponseEntity<Libro> actualizarLibro(@PathVariable("id")Long id, Libro libro);
 	
-	@RequestMapping(value="/categoria", method=RequestMethod.POST)
+	@RequestMapping(value="/catalogo", method=RequestMethod.POST)
 	ResponseEntity<Libro> nuevoLibro(Libro libro);
 	
 	@RequestMapping(value="/catalogo/{id}", method=RequestMethod.DELETE)
-	void eliminarLibro(Long id);
+	void eliminarLibro(@PathVariable("id")Long id);
 }

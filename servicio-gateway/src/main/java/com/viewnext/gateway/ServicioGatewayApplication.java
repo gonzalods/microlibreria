@@ -10,6 +10,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -38,14 +39,17 @@ public class ServicioGatewayApplication {
 			.and()
 				.authorizeRequests()
 					.antMatchers("/index.html", "/ui/**", "/", "/login.html", "/registrarse",
-							"/categoria/all", "/catalogo/**", "/busqueda/**", "/registro.html")
+							"/registro.html")
 						.permitAll()
+					.antMatchers(HttpMethod.GET,"/categoria/all", "/catalogo/**").permitAll()
+					.antMatchers(HttpMethod.POST, "/busqueda/**").permitAll()
+					.antMatchers("/admin/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 				.and()
 					.formLogin().loginPage("/login.html")
 				.and()
-					.csrf()
-						.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+					.csrf().disable();
+						//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 		}
 
 		@Override

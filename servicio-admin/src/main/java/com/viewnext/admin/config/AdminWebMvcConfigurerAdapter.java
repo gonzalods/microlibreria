@@ -13,10 +13,10 @@ public class AdminWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
 		registry.addViewController("").setViewName("index");
 	}
 
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new SecurityTokensInterceptor());
-	}
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(new SecurityTokensInterceptor());
+//	}
 	
 	
 

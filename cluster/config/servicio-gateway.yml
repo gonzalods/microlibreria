@@ -1,0 +1,42 @@
+security:
+  sessions: ALWAYS
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.33.25/lib_acceso?useSSL=false
+    username: root
+    password: viewnext
+    driver-class-name: com.mysql.jdbc.Driver
+zuul:
+  routes:
+    inicio:
+      path: /
+      serviceId: servicio-ui
+    ui:
+      serviceId: servicio-ui
+      sensitive-headers:
+    cliente:
+      path : /cliente/**
+      serviceId: servicio-cliente
+      stripPrefix: false
+      sensitive-headers:
+    catalogo: 
+      path : /catalogo/**
+      serviceId: servicio-catalogo
+      stripPrefix: false
+    categoria:
+      path : /categoria/**
+      serviceId: servicio-catalogo
+      stripPrefix: false
+    busqueda:
+      path: /busqueda/**
+      serviceId: servicio-busqueda
+      stripPrefix: false
+    carrito:
+      path: /carrito/**
+      serviceId: servicio-carrito
+      stripPrefix: false
+      sensitive-headers:
+    admin:
+      path: /admin/**
+      serviceId: servicio-admin
+      sensitive-headers:

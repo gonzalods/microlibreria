@@ -2,10 +2,12 @@ package com.viewnext.admin.client;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
 import com.viewnext.admin.bean.FiltroBusqueda;
 import com.viewnext.admin.bean.RespuestaBusqueda;
 
+@Component
 public class BusquedaClienteFallback implements BusquedaCliente {
 
 	@Override

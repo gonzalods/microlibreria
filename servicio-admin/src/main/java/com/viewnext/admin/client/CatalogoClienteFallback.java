@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
 import com.viewnext.admin.bean.Categoria;
 import com.viewnext.admin.bean.Libro;
 
+@Component
 public class CatalogoClienteFallback implements CatalogoCliente {
 
 	@Override
@@ -24,7 +26,7 @@ public class CatalogoClienteFallback implements CatalogoCliente {
 
 	@Override
 	public ResponseEntity<Libro> actualizarLibro(Long id, Libro libro) {
-		// TODO Auto-generated method stub
+		System.out.println("no actualiza. ¿por que?");
 		return null;
 	}
 

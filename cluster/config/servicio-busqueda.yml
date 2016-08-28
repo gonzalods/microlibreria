@@ -1,0 +1,7 @@
+spring: 
+  data: 
+    elasticsearch: 
+      cluster-nodes: 192.168.33.25:9300
+      cluster-name: elasticsearch
+busqueda:
+  excludido: -1

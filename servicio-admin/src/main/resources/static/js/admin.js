@@ -4,7 +4,7 @@ $(document).ready(function(){
 	
 	$link_logout.click(function(){
 		$.ajax({
-			beforeSend: csrf_control, 
+//			beforeSend: csrf_control, 
 			url: '/logout',
 			method: 'POST',
 			dataType: 'json',

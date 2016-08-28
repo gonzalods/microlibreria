@@ -9,7 +9,7 @@ import com.viewnext.admin.bean.FiltroBusqueda;
 import com.viewnext.admin.bean.RespuestaBusqueda;
 
 @FeignClient(name="servicio-busqueda", /*url="${admin.budqueda-url}"url="http://localhost:9081",*/
-			configuration=CatalogoClientConfig.class, fallback=BusquedaClienteFallback.class)
+			fallback=BusquedaClienteFallback.class)
 public interface BusquedaCliente {
 
 	@RequestMapping(value="/busqueda", method=RequestMethod.POST)

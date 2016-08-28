@@ -5,7 +5,6 @@ import java.util.Collections;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.viewnext.gateway.bean.Credenciales;
@@ -16,8 +15,6 @@ import com.viewnext.gateway.repository.AccesoRepositorio;
 @Transactional
 public class AccesoServicioImpl implements AccesoServicio {
 
-	@Value("${acceso.cliente-url}")
-	private String url;
 	private AccesoRepositorio repo;
 	
 	@Autowired
