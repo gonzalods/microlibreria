@@ -27,8 +27,12 @@
       shell: docker run --restart=unless-stopped -d --hostname lib-rabbit --name lib-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management
     - name: install redis docker
       shell: docker run --restart=unless-stopped -d --name lib-redis -p 6379:6379 redis
+    - name: create directory for gogs
+      file: path=/var/gogs state=directory  
     - name: install gogs docker
-      shell: docker run --restart=unless-stopped -d --name lib-gogs -p 10022:22 -p 10080:3000 gogs/gogs
+      shell: docker run --restart=unless-stopped -d --name lib-gogs -p 10022:22 -p 10080:3000 -v /var/gogs:/data gogs/gogs
+    - name: config gogs
+      copy: src=/vagrant/gogs/app.ini dest=/var/gogs/gogs/conf/app.ini owner=vagrant group=vagrant
     - name: install logstash docker
       shell: docker run --restart=unless-stopped -d --name lib-logstash -p 4560:4560 -v /vagrant:/config-dir logstash -f /config-dir/logstash.conf
     - name: create index catalogo elasticsearch
@@ -74,3 +78,15 @@
         force_basic_auth: yes
         body_format: json
         status_code: 204
+#    - name: build config-server docker
+#      shell: docker build -t 192.168.33.25:5000/config-server /vagrant/docker/config-server
+#    - name: push config-server into docker local repository
+#      shell: docker push 192.168.33.25:5000/config-server
+#    - name: install config-server docker
+#      shell: docker run -d --name lib-config -p 8888:8888 --restart=unless-stopped 192.168.33.25:5000/config-server
+#    - name: build eureka-server docker
+#      shell: docker build -t 192.168.33.25:5000/eureka-server /vagrant/docker/eureka-server
+#    - name: push config-server into local repository
+#      shell: docker push 192.168.33.25:5000/eureka-server 
+#    - name: install eureka-server docker
+#      shell: docker run -d --name lib-eureka -p 8761:8761 --restart=unless-stopped 192.168.33.25:5000/eureka-server
