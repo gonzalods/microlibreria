@@ -1,7 +1,10 @@
 spring: 
-  data: 
-    elasticsearch: 
-      cluster-nodes: 192.168.33.25:9300
+  data:
+    elasticsearch:
+      cluster-nodes: 192.168.33.25:9300 
       cluster-name: elasticsearch
-busqueda:
-  excludido: -1
+busqueda: 
+  excludido: 0
+loggin:
+  level:
+    com.viewnext.micro.busqueda.servicio.BusquedaServicio: INFO

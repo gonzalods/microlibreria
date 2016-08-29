@@ -6,6 +6,7 @@ import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.converter.MessageConverter;
@@ -31,6 +32,10 @@ public class Application implements RabbitListenerConfigurer {
         return factory;
     }
 
+	@Bean
+	public AlwaysSampler defaultSampler() {
+		return new AlwaysSampler();
+	}
 	//@Bean
 	public Queue createQueue(){
 		return new Queue("CreateQ", false);

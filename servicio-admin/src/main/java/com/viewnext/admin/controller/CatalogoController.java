@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ import com.viewnext.admin.servicio.CatalogoServicio;
 @Controller
 public class CatalogoController {
 	
+	private final static Logger logger = LoggerFactory.getLogger(CatalogoServicio.class);
 	@Autowired
 	private CatalogoServicio catalogoServicio;
 	
@@ -70,6 +73,7 @@ public class CatalogoController {
 		SecurityTokens st = new SecurityTokens();
 		st.setSession(session.getId());
 		SessionTokens.set(st);
+		logger.info("Petición de administrador para actualizar libro:" + libro.getId());
 		catalogoServicio.actualizarLibro(libro);
 		FiltroBusqueda filtro = new FiltroBusqueda();
 		filtro.setBusqueda(busqueda);

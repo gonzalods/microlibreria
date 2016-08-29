@@ -8,6 +8,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
@@ -26,6 +27,10 @@ public class ServicioAdminApplication {
 		SpringApplication.run(ServicioAdminApplication.class, args);
 	}
 	
+	@Bean
+	public AlwaysSampler defaultSampler() {
+		return new AlwaysSampler();
+	}
 //	@Bean
 //	@LoadBalanced
 	RestTemplate restTemplate(RestTemplateBuilder builder){

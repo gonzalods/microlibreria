@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +19,8 @@ import com.viewnext.microlibreria.catalogo.repositorio.LibroRepositorio;
 @Transactional
 public class CatalogoServicioImpl implements CatalogoServicio {
 
+	private static final Logger logger = LoggerFactory.getLogger(CatalogoServicio.class);
+	
 	private LibroRepositorio libroRepo;
 	
 	private RabbitMessagingTemplate rabbitTemplate;
@@ -45,8 +49,10 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 		if(!libroRepo.exists(libro.getId())){
 			throw new RuntimeException("Libro no existe");
 		}
+		logger.info("Se realiza la actualización del libro {0}", libro.getId());
 		libroRepo.save(libro);
 		Libro lib = libroRepo.findOne(libro.getId());
+		logger.info("Se notifica la actualización del libro {0}", libro.getId());
 		rabbitTemplate.convertAndSend("catalogo.update", lib);
 		return lib;
 	}

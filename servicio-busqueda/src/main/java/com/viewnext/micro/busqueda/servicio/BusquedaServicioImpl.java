@@ -1,5 +1,7 @@
 package com.viewnext.micro.busqueda.servicio;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import com.viewnext.micro.busqueda.repositorio.BusquedaRepositorio;
 @Service
 public class BusquedaServicioImpl implements BusquedaServicio {
 
+	private static final Logger logger = LoggerFactory.getLogger(BusquedaServicio.class);
 	@Autowired
 	private BusquedaRepositorio repositorio;
 	
@@ -41,6 +44,7 @@ public class BusquedaServicioImpl implements BusquedaServicio {
 	
 	@RabbitListener(queues={"catalogo.create","catalogo.update"})
 	public void updateDocBusqueda(BusquedaDocument busqueda){
+		logger.info("Se gurada los cambios del libro {0}", busqueda.getId());
 		repositorio.save(busqueda);
 	}
 	

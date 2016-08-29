@@ -30,7 +30,7 @@
     - name: install gogs docker
       shell: docker run --restart=unless-stopped -d --name lib-gogs -p 10022:22 -p 10080:3000 gogs/gogs
     - name: install logstash docker
-      shell: docker run --restart=unless-stopped -d --name lib-logstash -p 4560:4560-v /vagrant:/config-dir logstash -f /config-dir/logstash.conf
+      shell: docker run --restart=unless-stopped -d --name lib-logstash -p 4560:4560 -v /vagrant:/config-dir logstash -f /config-dir/logstash.conf
     - name: create index catalogo elasticsearch
       uri:
         url: http://localhost:9200/catalogo

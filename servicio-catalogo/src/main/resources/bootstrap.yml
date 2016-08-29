@@ -4,3 +4,5 @@ spring:
   cloud:
     config:
       uri: http://192.168.33.25:8888
+logging:
+  config: ${spring.cloud.config.uri}/${spring.application.name}/default/master/logback-spring.xml      

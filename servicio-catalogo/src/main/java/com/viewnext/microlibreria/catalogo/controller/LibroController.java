@@ -2,6 +2,8 @@ package com.viewnext.microlibreria.catalogo.controller;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,8 @@ import com.viewnext.microlibreria.catalogo.servicio.CatalogoServicio;
 @RequestMapping("/catalogo")
 public class LibroController {
 
+	private static final Logger logger = LoggerFactory.getLogger(CatalogoServicio.class);
+	
 	@Autowired
 	private CatalogoServicio catalogoServicio;
 	
@@ -50,10 +54,12 @@ public class LibroController {
 	public HttpEntity<Libro> actualizarLibro(@RequestBody Libro libro){
 		ResponseEntity<Libro> response = null;
 		try{
+			logger.info("Petición de actualizar libro {0}", libro.getId());
 			Libro modificado = catalogoServicio.actualizarLibro(libro);
 			response = new ResponseEntity<Libro>(modificado, HttpStatus.OK);
 			
 		}catch(RuntimeException e){
+			logger.info("Petición de actualizar libro {0} no se ha podido realizar", libro.getId());
 			response = new ResponseEntity<Libro>(libro, HttpStatus.NOT_FOUND);
 		}
 		return response;

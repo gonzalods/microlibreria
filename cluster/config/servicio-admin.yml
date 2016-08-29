@@ -1,0 +1,6 @@
+admin:
+  catalogo-url: http://servicio-catalogo
+  busqueda-url: http://servicio-busqueda
+logging:
+  level:
+    com.viewnext.admin.servicio.ServicioCatalogo: INFO

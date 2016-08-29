@@ -1,17 +1,26 @@
+security:
+  sessions: NEVER 
 spring:
   datasource:
-    url: jdbc:mysql://192.168.33.25/lib_catalogo?useSSL=false
-    username: root
+    url: jdbc:mysql://192.168.33.25:3306/lib_catalogo?useSSL=false
     password: viewnext
+    username: root
     driver-class-name: com.mysql.jdbc.Driver
+
   jpa:
     show-sql: true
-    properties: 
+    properties:
       hibernate: 
-        dialect:  org.hibernate.dialect.MySQL5Dialect
-#Respeta el caso en las anotaciones de la entidad
-    hibernate: 
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate:   
       naming: 
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#Respeta el caso en las anotaciones de la entidad
 #No respeta el caso en las anotaciones de la entidad, por lo menos en Windows (no es sensible al caso)
-#spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy        
+#spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
+logging:
+  level: 
+#    org.springframework: 
+#      security: DEBUG
+#      session: TRACE  
+    com.viewnext.microlibreria.catalogo.servicio.CatalogoServicio: INFO
