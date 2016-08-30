@@ -2,18 +2,21 @@ package com.viewnext.micro.busqueda.servicio;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.viewnext.micro.busqueda.bean.FiltroBusqueda;
+import com.viewnext.micro.busqueda.binding.CatalogoSink;
 import com.viewnext.micro.busqueda.document.BusquedaDocument;
 import com.viewnext.micro.busqueda.repositorio.BusquedaRepositorio;
 
 @Service
+@EnableBinding(CatalogoSink.class)
 public class BusquedaServicioImpl implements BusquedaServicio {
 
 	private static final Logger logger = LoggerFactory.getLogger(BusquedaServicio.class);
@@ -42,13 +45,13 @@ public class BusquedaServicioImpl implements BusquedaServicio {
 		}
 	}
 	
-	@RabbitListener(queues={"catalogo.create","catalogo.update"})
+	@StreamListener(CatalogoSink.CATALOGO_UPDATE_CREATE)
 	public void updateDocBusqueda(BusquedaDocument busqueda){
-		logger.info("Se gurada los cambios del libro {0}", busqueda.getId());
+		logger.info("Se gurada los cambios del libro {} en la búsqueda", busqueda.getId());
 		repositorio.save(busqueda);
 	}
 	
-	@RabbitListener(queues="catalogo.delete")
+	@StreamListener(CatalogoSink.CATALOGO_DELETE)
 	public void deleteDocBusqueda(BusquedaDocument busqueda){
 		repositorio.delete(busqueda);
 	}

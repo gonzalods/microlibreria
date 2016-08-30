@@ -54,12 +54,12 @@ public class LibroController {
 	public HttpEntity<Libro> actualizarLibro(@RequestBody Libro libro){
 		ResponseEntity<Libro> response = null;
 		try{
-			logger.info("Petición de actualizar libro {0}", libro.getId());
+			logger.info("Petición de actualizar libro {}", libro.getId());
 			Libro modificado = catalogoServicio.actualizarLibro(libro);
 			response = new ResponseEntity<Libro>(modificado, HttpStatus.OK);
 			
 		}catch(RuntimeException e){
-			logger.info("Petición de actualizar libro {0} no se ha podido realizar", libro.getId());
+			logger.info("Petición de actualizar libro {} no se ha podido realizar", libro.getId());
 			response = new ResponseEntity<Libro>(libro, HttpStatus.NOT_FOUND);
 		}
 		return response;

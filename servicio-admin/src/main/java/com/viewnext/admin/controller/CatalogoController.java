@@ -73,7 +73,7 @@ public class CatalogoController {
 		SecurityTokens st = new SecurityTokens();
 		st.setSession(session.getId());
 		SessionTokens.set(st);
-		logger.info("Petición de administrador para actualizar libro:" + libro.getId());
+		logger.info("Petición de administrador para actualizar libro {}", libro.getId());
 		catalogoServicio.actualizarLibro(libro);
 		FiltroBusqueda filtro = new FiltroBusqueda();
 		filtro.setBusqueda(busqueda);
