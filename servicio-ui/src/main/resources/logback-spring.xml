@@ -2,11 +2,12 @@
 <configuration>
 	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
 	<springProperty scope="context" name="springAppName" source="spring.application.name"/>
+	<springProperty name="logstashHost" source="logstash-host"/>
 	<include
 		resource="org/springframework/boot/logging/logback/console-appender.xml" />
 	<appender name="stash"
 		class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-		<destination>192.168.33.25:4560</destination>
+		<destination>${logstashHost}</destination>
 		<!-- encoder is required -->
 		<encoder
 			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
@@ -34,6 +35,6 @@
 	</appender>
 	<root level="INFO">
 		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="stash" />
+ 		<appender-ref ref="stash" />
 	</root>
 </configuration>
