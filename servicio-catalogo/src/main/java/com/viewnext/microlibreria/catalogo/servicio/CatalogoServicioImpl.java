@@ -36,8 +36,10 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 	}
 	@Override
 	public Libro guardarLibro(Libro libro) {
+		logger.debug("Se realiza la creación del libro {}", libro.getTitulo());
 		libroRepo.save(libro);
 		Libro nuevo = libroRepo.findOne(libro.getId());
+		logger.debug("Se notifica la creacion del libro {}", libro.getTitulo());
 		catalogoSource.create().send(MessageBuilder.withPayload(nuevo).build());
 		return nuevo;
 
@@ -48,10 +50,10 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 		if(!libroRepo.exists(libro.getId())){
 			throw new RuntimeException("Libro no existe");
 		}
-		logger.info("Se realiza la actualización del libro {}", libro.getId());
+		logger.debug("Se realiza la actualización del libro {}", libro.getId());
 		libroRepo.save(libro);
 		Libro lib = libroRepo.findOne(libro.getId());
-		logger.info("Se notifica la actualización del libro {}", libro.getId());
+		logger.debug("Se notifica la actualización del libro {}", libro.getId());
 		catalogoSource.update().send(MessageBuilder.withPayload(lib).build());
 		return lib;
 	}
@@ -62,7 +64,9 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 		if(lib == null){
 			throw new RuntimeException("Libro no existe");
 		}
+		logger.debug("Se realiza la eliminación del libro {}", id);
 		libroRepo.delete(lib);
+		logger.debug("Se notifica la eliminación del libro {}", id);
 		catalogoSource.delete().send(MessageBuilder.withPayload(lib).build());
 		return lib;
 	}

@@ -102,19 +102,19 @@ public class CatalogoServicioImpl implements CatalogoServicio {
 
 	@Override
 	public void actualizarLibro(Libro libro) {
-		logger.info("Se realiza petición para actualizar libro:{}", libro.getId());
+		logger.debug("Se realiza petición para actualizar libro:{}", libro.getId());
 		ResponseEntity<?> response = catalogoCliente.actualizarLibro(libro.getId(), libro);
 	}
 
 	@Override
 	public void nuevoLibro(Libro libro) {
-
+		logger.debug("Se realiza petición para crear libro:{}", libro.getTitulo());
 		ResponseEntity<Libro> response = catalogoCliente.nuevoLibro(libro);
 	}
 
 	@Override
 	public void eliminarLibro(Long id) {
-		
+		logger.debug("Se realiza petición para eliminar libro:{}", id);
 		catalogoCliente.eliminarLibro(id);
 	}
 

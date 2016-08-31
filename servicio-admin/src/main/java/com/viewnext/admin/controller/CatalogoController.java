@@ -73,7 +73,7 @@ public class CatalogoController {
 		SecurityTokens st = new SecurityTokens();
 		st.setSession(session.getId());
 		SessionTokens.set(st);
-		logger.info("Petición de administrador para actualizar libro {}", libro.getId());
+		logger.debug("Petición de administrador para actualizar libro {}", libro.getId());
 		catalogoServicio.actualizarLibro(libro);
 		FiltroBusqueda filtro = new FiltroBusqueda();
 		filtro.setBusqueda(busqueda);
@@ -98,6 +98,7 @@ public class CatalogoController {
 	
 	@PostMapping("/nuevo")
 	public String insertar(@ModelAttribute("libro")Libro libro, Model model){
+		logger.debug("Petición de administrador para crear libro {}", libro.getTitulo());
 		catalogoServicio.nuevoLibro(libro);
 		model.addAttribute("msg", "Libro creado correctamente");
 		return "nuevoLibro";
@@ -105,6 +106,7 @@ public class CatalogoController {
 	
 	@GetMapping("/eliminar")
 	public String eliminar(@RequestParam("id") Long id, @ModelAttribute("filtro") FiltroBusqueda filtro, Model model){
+		logger.debug("Petición de administrador para eliminar libro {}", id);
 		catalogoServicio.eliminarLibro(id);
 		RespuestaBusqueda respuesta = catalogoServicio.buscarPorCriterios(filtro);
 		model.addAttribute("libros", respuesta.getLibros());

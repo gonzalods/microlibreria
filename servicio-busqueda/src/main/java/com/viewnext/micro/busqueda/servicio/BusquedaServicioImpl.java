@@ -47,12 +47,13 @@ public class BusquedaServicioImpl implements BusquedaServicio {
 	
 	@StreamListener(CatalogoSink.CATALOGO_UPDATE_CREATE)
 	public void updateDocBusqueda(BusquedaDocument busqueda){
-		logger.info("Se gurada los cambios del libro {} en la búsqueda", busqueda.getId());
+		logger.info("Se guardan los cambios del libro {} en la búsqueda", busqueda.getId());
 		repositorio.save(busqueda);
 	}
 	
 	@StreamListener(CatalogoSink.CATALOGO_DELETE)
 	public void deleteDocBusqueda(BusquedaDocument busqueda){
+		logger.debug("Se elimia el libro {} en la búsqueda", busqueda.getId());
 		repositorio.delete(busqueda);
 	}
 }

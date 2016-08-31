@@ -89,4 +89,4 @@
 #    - name: push config-server into local repository
 #      shell: docker push 192.168.33.25:5000/eureka-server 
 #    - name: install eureka-server docker
-#      shell: docker run -d --name lib-eureka -p 8761:8761 --restart=unless-stopped --link lib-config:config 192.168.33.25:5000/eureka-server
+#      shell: docker run -d --name lib-eureka -p 8761:8761 --restart=unless-stopped 192.168.33.25:5000/eureka-server

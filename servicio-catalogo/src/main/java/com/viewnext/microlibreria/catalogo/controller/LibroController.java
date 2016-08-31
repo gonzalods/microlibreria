@@ -42,9 +42,11 @@ public class LibroController {
 	public HttpEntity<Libro> guardarLibro(@RequestBody Libro libro){
 		ResponseEntity<Libro> response = null;
 		try{
+			logger.debug("Petición de crear libro {}", libro.getTitulo());
 			Libro nuevo = catalogoServicio.guardarLibro(libro);
 			response = new ResponseEntity<Libro>(nuevo, HttpStatus.CREATED);
 		}catch(RuntimeException e){
+			logger.debug("Petición de crear libro {} no se ha podido realizar", libro.getTitulo());
 			response = new ResponseEntity<Libro>(libro, HttpStatus.BAD_REQUEST);
 		}
 		return response;
@@ -54,12 +56,12 @@ public class LibroController {
 	public HttpEntity<Libro> actualizarLibro(@RequestBody Libro libro){
 		ResponseEntity<Libro> response = null;
 		try{
-			logger.info("Petición de actualizar libro {}", libro.getId());
+			logger.debug("Petición de actualizar libro {}", libro.getId());
 			Libro modificado = catalogoServicio.actualizarLibro(libro);
 			response = new ResponseEntity<Libro>(modificado, HttpStatus.OK);
 			
 		}catch(RuntimeException e){
-			logger.info("Petición de actualizar libro {} no se ha podido realizar", libro.getId());
+			logger.debug("Petición de actualizar libro {} no se ha podido realizar", libro.getId());
 			response = new ResponseEntity<Libro>(libro, HttpStatus.NOT_FOUND);
 		}
 		return response;
@@ -69,10 +71,12 @@ public class LibroController {
 	public HttpEntity<Libro> eliminarLibro(@PathVariable Long id){
 		ResponseEntity<Libro> response = null;
 		try{
+			logger.debug("Petición de elimianación libro {}", id);
 			Libro borrado = catalogoServicio.eliminarLibro(id);
 			response = new ResponseEntity<Libro>(borrado, HttpStatus.OK);
 			
 		}catch(RuntimeException e){
+			logger.debug("Petición de actualizar libro {} no se ha podido realizar", id);
 			response = new ResponseEntity<Libro>(HttpStatus.NOT_FOUND);
 		}
 		return response;
