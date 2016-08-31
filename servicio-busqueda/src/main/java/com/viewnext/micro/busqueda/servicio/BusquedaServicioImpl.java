@@ -47,7 +47,7 @@ public class BusquedaServicioImpl implements BusquedaServicio {
 	
 	@StreamListener(CatalogoSink.CATALOGO_UPDATE_CREATE)
 	public void updateDocBusqueda(BusquedaDocument busqueda){
-		logger.info("Se guardan los cambios del libro {} en la búsqueda", busqueda.getId());
+		logger.debug("Se guardan los cambios del libro {} en la búsqueda", busqueda.getId());
 		repositorio.save(busqueda);
 	}
 	
