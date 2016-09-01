@@ -18,9 +18,22 @@ spring:
 #Respeta el caso en las anotaciones de la entidad
 #No respeta el caso en las anotaciones de la entidad, por lo menos en Windows (no es sensible al caso)
 #spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
+  cloud:
+    stream: 
+      bindings:
+        catalogoCreate:
+          destination: catalogo.create
+          contentType: application/json
+        catalogoUpdate:
+          destination: catalogo.update
+          contentType: application/json
+        catalogoDelete:
+          destination: catalogo.delete
+          contentType: application/json
+          
 logging:
   level: 
 #    org.springframework: 
 #      security: DEBUG
 #      session: TRACE  
-    com.viewnext.microlibreria.catalogo.servicio.CatalogoServicio: INFO
+    com.viewnext.microlibreria.catalogo.servicio.CatalogoServicio: DEBUG

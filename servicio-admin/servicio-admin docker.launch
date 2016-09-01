@@ -15,5 +15,5 @@
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="DOCKER_HOST" value="http://192.168.33.25:4243"/>
 </mapAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${project_loc:eureka-server}"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="C:/Users/0003299/gitFormacion/microlibreria/servicio-admin"/>
 </launchConfiguration>

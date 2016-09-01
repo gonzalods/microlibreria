@@ -3,4 +3,4 @@ admin:
   busqueda-url: http://servicio-busqueda
 logging:
   level:
-    com.viewnext.admin.servicio.ServicioCatalogo: INFO
+    com.viewnext.admin.servicio.CatalogoServicio: DEBUG

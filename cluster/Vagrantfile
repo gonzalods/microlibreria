@@ -4,7 +4,8 @@
 ANSIBLE_GROUPS = {
               "master" => ["master"],
 			  "servicioslib" => ["servicioslib"],
-              "nodes" => ["node1", "node2", "node3"],
+#              "nodes" => ["node1", "node2", "node3"],
+			  "nodes" => ["node"],	
               "all_groups:children" => ["master", "servicioslib" ,"nodes"]
             }
 Vagrant.configure("2") do |config|
@@ -16,6 +17,20 @@ Vagrant.configure("2") do |config|
     	vb.memory = "2048"
 		vb.cpus = 1
 	end
+    config.vm.define "master" do |master|
+        master.vm.network "private_network", ip: "192.168.33.10"
+        master.vm.hostname = "master"
+		master.vm.provider "virtualbox" do |vb|
+			vb.memory = "2048"
+			vb.cpus = 2
+			vb.name = master.vm.hostname
+		end
+        master.vm.provision :ansible_local do |ansible|
+#		    ansible.verbose = "v"
+			ansible.playbook = "playbook.yml"
+            ansible.groups = ANSIBLE_GROUPS
+        end
+    end	
 	config.vm.define "servicioslib" do |services|
     	services.vm.network "private_network", ip: "192.168.33.25"
     	services.vm.hostname = "servicioslib"
@@ -30,4 +45,17 @@ Vagrant.configure("2") do |config|
             ansible.groups = ANSIBLE_GROUPS
         end
     end
+    config.vm.define "node" do |node|
+        node1.vm.network "private_network", ip: "192.168.33.11"
+        node1.vm.hostname = "node"
+		node1.vm.provider "virtualbox" do |vb|
+			vb.memory = "2048"
+			vb.cpus = 1
+			vb.name = "node" 
+		end
+        node1.vm.provision :ansible_local do |ansible|
+            ansible.playbook = "playbook.yml"
+            ansible.groups = ANSIBLE_GROUPS
+        end
+    end    
 end

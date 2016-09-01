@@ -8,7 +8,7 @@
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="LOGSTASH_HOST" value="192.168.33.25:4560"/>
-<mapEntry key="PORT" value="8083"/>
+<mapEntry key="PORT_LOC" value="8083"/>
 </mapAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.viewnext.cliente.Application"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="servicio-cliente"/>

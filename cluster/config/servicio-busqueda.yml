@@ -3,8 +3,19 @@ spring:
     elasticsearch:
       cluster-nodes: 192.168.33.25:9300 
       cluster-name: elasticsearch
+  cloud:
+    stream: 
+      bindings:
+        catalogoUpdateCreate:
+          destination: catalogo.update,catalogo.create
+          contentType: application/json
+          group: busqueda
+        catalogoDelete:
+          destination: catalogo.delete
+          contentType: application/json
+          group: busqueda      
 busqueda: 
   excludido: 0
-loggin:
+logging:
   level:
-    com.viewnext.micro.busqueda.servicio.BusquedaServicio: INFO
+    com.viewnext.micro.busqueda.servicio.BusquedaServicio: DEBUG

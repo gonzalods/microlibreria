@@ -1,3 +1,63 @@
+---
+- hosts: master
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: update hosts file
+      template: src=./hosts.j2 dest=/etc/hosts
+    - name: install mesosphere yum repo
+      yum: name=http://repos.mesosphere.io/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm state=present
+    - name: install zookeeper yum repo
+      yum: name=http://archive.cloudera.com/cdh4/one-click-install/redhat/6/x86_64/cloudera-cdh-4-0.x86_64.rpm state=present
+    - name: install zookeeper
+      yum: pkg=zookeeper,zookeeper-server state=latest
+    - name: configure zookeeper ID
+      become_user: zookeeper
+      shell: zookeeper-server-initialize --myid=1
+#    - name: install mesos, marathon, chronos, and docker packages
+#        yum: pkg=device-mapper-event-libs,mesos,marathon,chronos,docker state=latest
+    - name: install mesos, marathon, and docker packages
+      yum: pkg=device-mapper-event-libs,mesos,marathon,docker state=latest
+    - name: configure containerizers
+      lineinfile: dest=/etc/mesos-slave/containerizers create=yes line="docker,mesos"
+    - name: Increase the executor timeout
+      lineinfile: dest=/etc/mesos-slave/executor_registration_timeout create=yes line="5mins"
+    - name: set hostname mesos-slave
+      lineinfile: dest=/etc/mesos-slave/hostname create=yes line="192.168.33.10"
+    - name: set docker stop timeaout
+      lineinfile: dest=/etc/mesos-slave/docker_stop_timeout create=yes line="10secs"
+    - name: create new group docker
+      shell: groupadd docker
+    - name: add user vagrant to docker group
+      shell: usermod -aG docker vagrant
+    - name: start zookeeper
+      service: name=zookeeper-server state=started enabled=yes
+    - name: start mesos-master
+      service: name=mesos-master state=started enabled=yes
+    - name: start mesos-slave
+      service: name=mesos-slave state=started enabled=yes  
+#      - name: stop mesos-slave
+#        service: name=mesos-slave state=stopped enabled=no
+    - name: start marathon
+      service: name=marathon state=started enabled=yes
+#      - name: start chronos
+#        service: name=chronos state=started enabled=yes
+    - name: config docker for insecure registry
+      replace: dest=/etc/sysconfig/docker regexp="^# INSECURE_REGISTRY='--insecure-registry'$" replace="INSECURE_REGISTRY='--insecure-registry 192.168.33.25:5000'"
+    - name: start docker
+      service: name=docker state=started enabled=yes
+    - name: install go, git, and dnsutil packages
+      yum: pkg=golang,git,bind-utils state=latest
+#      - name: build/configure mesos-dns
+#        become_user: vagrant
+#        shell: sh /vagrant/installdns.sh
+#      - name: configure dns
+#        template: src=/vagrant/resolv.conf.j2 dest=/etc/resolv.conf
+#      - name: install consul client docker
+#        shell: docker run --restart=unless-stopped -d -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 consul agent -client=0.0.0.0 -ui -join 192.168.33.15 -advertise 192.168.33.10
+    - name: install logstash docker
+      shell: docker run --restart=unless-stopped -d --name lib-logstash -p 4560:4560 -v /vagrant:/config-dir logstash -f /config-dir/logstash.conf   
 - hosts: servicioslib
   remote_user: vagrant
   become: yes
@@ -47,37 +107,37 @@
 #        body: "{{lookup('file','/vagrant/catalogo_elastic.json')}}"
 #        body_format: json
       shell: 'curl -X POST -H "Content-Type: application/json" "http://localhost:9200/catalogo/busqueda/_bulk?pretty" --data-binary "@/vagrant/catalogo_elastic.json"'
-    - name: create queue catalogo.create
+#    - name: create queue catalogo.create
 #      shell: curl -i -u guest:guest -H "content-type:application/json" -XPUT -d'{"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@lib-rabbit"}' http://localhost:15672/api/queues/%2f/catalogo.update
-      uri: 
-        url: http://localhost:15672/api/queues/%2f/catalogo.create
-        method : PUT
-        user: guest
-        password: guest
-        body: {"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@lib-rabbit"}
-        force_basic_auth: yes
-        body_format: json
-        status_code: 204
-    - name: create queue catalogo.update
-      uri: 
-        url: http://localhost:15672/api/queues/%2f/catalogo.update
-        method : PUT
-        user: guest
-        password: guest
-        body: {"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@lib-rabbit"}
-        force_basic_auth: yes
-        body_format: json
-        status_code: 204
-    - name: create queue catalogo.delete
-      uri: 
-        url: http://localhost:15672/api/queues/%2f/catalogo.delete
-        method : PUT
-        user: guest
-        password: guest
-        body: {"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@lib-rabbit"}
-        force_basic_auth: yes
-        body_format: json
-        status_code: 204
+#      uri: 
+#        url: http://localhost:15672/api/queues/%2f/catalogo.create
+#        method : PUT
+#        user: guest
+#        password: guest
+#        body: {"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@lib-rabbit"}
+#        force_basic_auth: yes
+#        body_format: json
+#        status_code: 204
+#    - name: create queue catalogo.update
+#      uri: 
+#        url: http://localhost:15672/api/queues/%2f/catalogo.update
+#        method : PUT
+#        user: guest
+#        password: guest
+#        body: {"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@lib-rabbit"}
+#        force_basic_auth: yes
+#        body_format: json
+#        status_code: 204
+#    - name: create queue catalogo.delete
+#      uri: 
+#        url: http://localhost:15672/api/queues/%2f/catalogo.delete
+#        method : PUT
+#        user: guest
+#        password: guest
+#        body: {"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@lib-rabbit"}
+#        force_basic_auth: yes
+#        body_format: json
+#        status_code: 204
 #    - name: build config-server docker
 #      shell: docker build -t 192.168.33.25:5000/config-server /vagrant/docker/config-server
 #    - name: push config-server into docker local repository
@@ -90,3 +150,40 @@
 #      shell: docker push 192.168.33.25:5000/eureka-server 
 #    - name: install eureka-server docker
 #      shell: docker run -d --name lib-eureka -p 8761:8761 --restart=unless-stopped 192.168.33.25:5000/eureka-server
+- hosts: nodes
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: update hosts file
+      template: src=./hosts.j2 dest=/etc/hosts
+    - name: install mesosphere yum repo
+      yum: name=http://repos.mesosphere.io/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm state=present
+    - name: install mesos and docker packages
+      yum: pkg=device-mapper-event-libs,mesos,docker state=latest
+#      - name: configure dns
+#        template: src=/vagrant/resolv.conf.j2 dest=/etc/resolv.conf 
+    - name: configure containerizers
+      lineinfile: dest=/etc/mesos-slave/containerizers create=yes line="docker,mesos"
+    - name: Increase the executor timeout
+      lineinfile: dest=/etc/mesos-slave/executor_registration_timeout create=yes line="5mins"
+    - name: set hostname mesos-slave
+      lineinfile: dest=/etc/mesos-slave/hostname create=yes line={{ansible_enp0s8.ipv4.address}}
+    - name: set docker stop timeaout
+      lineinfile: dest=/etc/mesos-slave/docker_stop_timeout create=yes line="10secs"
+    - name: create new group docker
+      shell: groupadd docker
+    - name: add user vagrant to docker group
+      shell: usermod -aG docker vagrant        
+    - name: set zookeeper master
+      replace: dest=/etc/mesos/zk regexp="localhost" replace="192.168.33.10"
+    - name: stop mesos-master
+      service: name=mesos-master state=stopped enabled=no
+    - name: start mesos-slave
+      service: name=mesos-slave state=started enabled=yes
+    - name: config docker for insecure registry
+      replace: dest=/etc/sysconfig/docker regexp="^# INSECURE_REGISTRY='--insecure-registry'$" replace="INSECURE_REGISTRY='--insecure-registry 192.168.33.25:5000'"      
+    - name: start docker
+      service: name=docker state=started enabled=yes
+    - name: install logstash docker
+      shell: docker run --restart=unless-stopped -d --name lib-logstash -p 4560:4560 -v /vagrant:/config-dir logstash -f /config-dir/logstash.conf
